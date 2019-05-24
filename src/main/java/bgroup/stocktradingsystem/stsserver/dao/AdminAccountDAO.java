@@ -3,15 +3,18 @@ package bgroup.stocktradingsystem.stsserver.dao;
 import java.sql.*;
 import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.impl.iAdminAccountDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Repository
 public class AdminAccountDAO implements iAdminAccountDAO {
-    @Resource
-    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Override
     public void insert(AdminAccount account) {

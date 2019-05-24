@@ -2,8 +2,8 @@ package bgroup.stocktradingsystem.stsserver.controller;
 
 
 import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
-import bgroup.stocktradingsystem.stsserver.domain.resp.CustomResponse;
-import bgroup.stocktradingsystem.stsserver.domain.resp.Result;
+import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
+import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

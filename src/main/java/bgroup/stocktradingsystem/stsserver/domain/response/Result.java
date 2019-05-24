@@ -1,4 +1,4 @@
-package bgroup.stocktradingsystem.stsserver.domain.resp;
+package bgroup.stocktradingsystem.stsserver.domain.response;
 
 public class Result {
     private boolean status;

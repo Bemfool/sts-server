@@ -1,6 +1,6 @@
 package bgroup.stocktradingsystem.stsserver.controller;
 
-import bgroup.stocktradingsystem.stsserver.domain.resp.Result;
+import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

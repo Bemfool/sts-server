@@ -6,8 +6,8 @@ import bgroup.stocktradingsystem.stsserver.domain.Stock;
 import java.util.List;
 
 public interface iStockDAO {
-    public void insert(Stock stock);
-    public void update(Stock stock);
-    public void delete(String code);
-    public List<Stock> select(String cond);
+    void insert(Stock stock);
+    void update(Stock stock);
+    void delete(String code);
+    List<Stock> select(String cond);
 }

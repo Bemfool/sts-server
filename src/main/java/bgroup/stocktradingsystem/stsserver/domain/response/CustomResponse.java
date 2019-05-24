@@ -1,4 +1,4 @@
-package bgroup.stocktradingsystem.stsserver.domain.resp;
+package bgroup.stocktradingsystem.stsserver.domain.response;
 
 import com.google.gson.Gson;
 
