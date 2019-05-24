@@ -1,13 +1,11 @@
 package bgroup.stocktradingsystem.stsserver.dao;
 
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.FundAccount;
-import bgroup.stocktradingsystem.stsserver.impl.iFundAccountDAO;
+import bgroup.stocktradingsystem.stsserver.impl.idao.iFundAccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Repository

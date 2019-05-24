@@ -1,13 +1,11 @@
 package bgroup.stocktradingsystem.stsserver.dao;
 
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.Index;
-import bgroup.stocktradingsystem.stsserver.impl.iIndexDAO;
+import bgroup.stocktradingsystem.stsserver.impl.idao.iIndexDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Repository
@@ -16,18 +14,21 @@ public class IndexDAO implements iIndexDAO {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public Boolean insert(Index index) {
-        return null;
+    public void insert(Index index) {
+
+
     }
 
     @Override
-    public Boolean delete(String id) {
-        return null;
+    public void delete(String id) {
+
+
     }
 
     @Override
-    public Boolean update(Index index) {
-        return null;
+    public void update(Index index) {
+
+
     }
 
     @Override

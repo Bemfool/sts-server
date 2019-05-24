@@ -1,4 +1,4 @@
-package bgroup.stocktradingsystem.stsserver.impl;
+package bgroup.stocktradingsystem.stsserver.impl.idao;
 
 import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.Index;
@@ -6,8 +6,8 @@ import bgroup.stocktradingsystem.stsserver.domain.Index;
 import java.util.List;
 
 public interface iIndexDAO {
-    public Boolean insert(Index index);
-    public Boolean update(Index index);
-    public Boolean delete(String code);
+    public void insert(Index index);
+    public void update(Index index);
+    public void delete(String code);
     public List<Index> select(String cond);
 }
