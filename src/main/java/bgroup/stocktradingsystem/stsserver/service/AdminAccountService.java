@@ -1,6 +1,6 @@
 package bgroup.stocktradingsystem.stsserver.service;
 
-import bgroup.stocktradingsystem.stsserver.dao.DAOFactory;
+import bgroup.stocktradingsystem.stsserver.impl.DAOFactory;
 import bgroup.stocktradingsystem.stsserver.impl.iAdminAccountDAO;
 
 public class AdminAccountService {

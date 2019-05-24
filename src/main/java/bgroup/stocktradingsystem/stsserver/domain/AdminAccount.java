@@ -3,6 +3,10 @@ package bgroup.stocktradingsystem.stsserver.domain;
 public class AdminAccount {
     private String id;
     private String password;
+    private String name;
+
+    public AdminAccount() {
+    }
 
     public AdminAccount(String id, String password) {
         this.id = id;
@@ -27,11 +31,19 @@ public class AdminAccount {
         return password;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

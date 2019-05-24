@@ -1,5 +1,6 @@
-package bgroup.stocktradingsystem.stsserver.dao;
+package bgroup.stocktradingsystem.stsserver.impl;
 
+import bgroup.stocktradingsystem.stsserver.dao.*;
 import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.impl.*;
 
