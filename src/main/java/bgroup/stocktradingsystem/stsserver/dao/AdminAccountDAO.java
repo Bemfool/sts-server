@@ -17,8 +17,8 @@ public class AdminAccountDAO implements iAdminAccountDAO {
 
     @Override
     public void insert(AdminAccount account) {
-        jdbcTemplate.update("INSERT INTO admin_account(id, password) VALUES(?, ?)",
-                account.getId(), account.getPassword());
+        jdbcTemplate.update("INSERT INTO admin_account(id, name, password) VALUES(?, ?, ?)",
+                account.getId(), account.getName(), account.getPassword());
 
     }
 
