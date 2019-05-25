@@ -10,7 +10,7 @@
 
 缓存数据库：Redis（Session）
 
-数据包格式：Gson 2.8.5**（客户端需要安装并导入相应JAR包）**
+数据包格式：Gson 2.8.5 **（客户端需要安装并导入相应JAR包）**
 
 GSON包
 
@@ -55,7 +55,7 @@ GSON包
 
 #### 证券账户
 
-`/securities/new/person`**【暂时不可使用】**
+`/securities/personal/new` 
 
 - 传入：PersonalAccount
 - 传出：
@@ -64,7 +64,7 @@ GSON包
     - false + 原因
   - 内容：null
 
-`/securities/new/corporate`**【暂时不可使用】**
+`/securities/corporate/new` 
 
 - 传入：CorporateAccount
 - 传出：
@@ -75,13 +75,13 @@ GSON包
 
 #### 资金账户
 
-`/fund/new` 创建新账户**【暂时不可使用】**
+`/fund/new` 创建新账户 **【暂时不可使用】**
 
-`/fund/update/balance` 更新利息**【暂时不可使用】**
+`/fund/balance/update` 更新利息 **【暂时不可使用】**
 
-`/fund/update/password` 更新密码**【暂时不可使用】**
+`/fund/password/update` 更新密码 **【暂时不可使用】**
 
-`/fund/check/state` 检查状态**【暂时不可使用】**
+`/fund/state/check` 检查状态 **【暂时不可使用】**
 
 #### 内部管理
 
@@ -99,7 +99,7 @@ GSON包
 
 ### 用户客户端
 
-`/client/login` 登陆**【暂时不可使用】**
+`/client/login` 登陆 
 
 - 传入：FundAccount
 - 传出：

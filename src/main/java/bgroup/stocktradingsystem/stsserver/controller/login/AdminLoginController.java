@@ -1,4 +1,4 @@
-package bgroup.stocktradingsystem.stsserver.controller;
+package bgroup.stocktradingsystem.stsserver.controller.login;
 
 
 import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;

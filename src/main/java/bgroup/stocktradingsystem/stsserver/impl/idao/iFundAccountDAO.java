@@ -5,8 +5,8 @@ import bgroup.stocktradingsystem.stsserver.domain.FundAccount;
 import java.util.List;
 
 public interface iFundAccountDAO {
-    public Boolean insert(FundAccount account);
-    public Boolean update(FundAccount account);
-    public Boolean delete(String id);
+    public void insert(FundAccount account);
+    public void update(FundAccount account);
+    public void delete(String id);
     public List<FundAccount> select(String cond);
 }

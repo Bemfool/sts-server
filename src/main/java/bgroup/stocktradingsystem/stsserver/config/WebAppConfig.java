@@ -18,9 +18,13 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void  addInterceptors(InterceptorRegistry registry) {
-        InterceptorRegistration addInterceptor = registry.addInterceptor(getAdminLoginInterceptor());
-        addInterceptor.addPathPatterns("/**");
-        addInterceptor.excludePathPatterns("/error/**");
-        addInterceptor.excludePathPatterns("/admin/login");
+        InterceptorRegistration addAdminInterceptor = registry.addInterceptor(getAdminLoginInterceptor());
+        addAdminInterceptor.addPathPatterns("/**");
+        addAdminInterceptor.excludePathPatterns("/error/**");
+        addAdminInterceptor.excludePathPatterns("/admin/login");
+        InterceptorRegistration addClientInterceptor = registry.addInterceptor(getAdminLoginInterceptor());
+        addClientInterceptor.addPathPatterns("/**");
+        addClientInterceptor.excludePathPatterns("/error/**");
+        addClientInterceptor.excludePathPatterns("/client/login");
     }
 }
