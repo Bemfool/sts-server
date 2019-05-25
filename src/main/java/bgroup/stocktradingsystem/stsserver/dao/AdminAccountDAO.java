@@ -46,7 +46,7 @@ public class AdminAccountDAO implements iAdminAccountDAO {
             AdminAccount account = new AdminAccount();
             account.setId(rs.getString("id"));
             account.setName(rs.getString("name"));
-            account.setPassword(rs.getString("email"));
+            account.setPassword(rs.getString("password"));
             return account;
         }
     }

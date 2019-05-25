@@ -15,4 +15,8 @@ public class StockService {
     public List<Stock> fetchAllStock() {
         return stockDAO.select("");
     }
+
+    public List<Stock> fetchCertainStock(String cond) { return stockDAO.select(cond);}
+
+
 }

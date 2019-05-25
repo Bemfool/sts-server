@@ -4,6 +4,7 @@ import bgroup.stocktradingsystem.stsserver.dao.AdminAccountDAO;
 import bgroup.stocktradingsystem.stsserver.dao.StockDAO;
 import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.Stock;
+import bgroup.stocktradingsystem.stsserver.service.AdminAccountService;
 import bgroup.stocktradingsystem.stsserver.service.StockService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,9 @@ public class JdbcTests {
     @Autowired
     StockService stockService;
 
+    @Autowired
+    AdminAccountService adminAccountService;
+
 //    @Resource
 //    private JdbcTemplate jdbcTemplate;
 
@@ -42,6 +46,12 @@ public class JdbcTests {
     public void selectFirstStockCode() {
         List<Stock> list = stockService.fetchAllStock();
         System.out.println(list.get(0).getStockCode());
+    }
+
+    @Test
+    public void insertNewAdmin() {
+        AdminAccount adminAccount = new AdminAccount("9999999999", "Maria", "000000");
+        adminAccountService.newAccount(adminAccount);
     }
 
 }
