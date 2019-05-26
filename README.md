@@ -12,8 +12,6 @@
 
 数据包格式：Gson 2.8.5 **（客户端需要安装并导入相应JAR包）**
 
-GSON包
-
 
 
 ## 客户端的使用
@@ -52,6 +50,15 @@ GSON包
     - false + 原因
   - 内容：List<Stock>
 
+`stock/one` 获取单只股票信息
+
+- 传入：stock_code
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：Stock
+
 `/stock/update`更新股票数据
 
 - 传入：Stock 新的股票数据（stock_code不能变）
@@ -70,7 +77,43 @@ GSON包
     - false + 原因
   - 内容：null
 
+### 指数信息
 
+`index/all`  取所有指数 
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List<Index>
+
+`index/one` 取单只指数
+
+- 传入：index_code
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：Index
+
+`index/update`   
+
+- 传入：Index 新的指数数据（index_code不能变）
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`index/update_list`   
+
+- 传入：List<Index> 新的指数数据（index_code不能变）
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
 
 
 ### 管理员客户端
@@ -126,8 +169,6 @@ GSON包
     - true
     - false + 原因
   - 内容：null
-
-
 
 
 ### 用户客户端

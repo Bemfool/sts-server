@@ -13,7 +13,6 @@ public class Stock {
     public Stock() {
     }
 
-
     public void setStockCode(String stockCode) {
         this.stockCode = stockCode;
     }

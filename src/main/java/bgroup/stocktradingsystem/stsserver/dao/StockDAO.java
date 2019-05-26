@@ -31,9 +31,9 @@ public class StockDAO implements iStockDAO {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String code) {
         jdbcTemplate.update("DELETE FROM stock WHERE stock_code = ?",
-                preparedStatement -> { preparedStatement.setString(1, id);
+                preparedStatement -> { preparedStatement.setString(1, code);
         });
     }
 
@@ -59,9 +59,8 @@ public class StockDAO implements iStockDAO {
         if (cond.isEmpty()){
             stocks = jdbcTemplate.query("SELECT * FROM stock",
                     new StockMapper());
-        return stocks;
-        }
-        else
+            return stocks;
+        } else
             return jdbcTemplate.query("SELECT * FROM stock WHERE " + cond,
                     new StockMapper());
     }

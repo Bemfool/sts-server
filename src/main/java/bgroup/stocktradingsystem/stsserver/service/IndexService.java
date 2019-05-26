@@ -12,7 +12,20 @@ public class IndexService {
     @Autowired
     IndexDAO indexDAO;
 
-    public List<Index> fetchAllIndex() {return indexDAO.select("");}
+    public List<Index> fetchAllIndex() {
+        return indexDAO.select("");
+    }
 
-    public List<Index> fetchCertainIndex(String cond) {return indexDAO.select(cond);}
+    public List<Index> fetchCertainIndex(String code) {
+        return indexDAO.select("index_code = '" + code + "'");
+    }
+
+    public void updateIndex(Index index) {
+        indexDAO.update(index);
+    }
+
+    public void updateIndexList(List<Index> indices) {
+        for (Index index : indices)
+            indexDAO.update(index);
+    }
 }

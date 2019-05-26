@@ -1,6 +1,5 @@
 package bgroup.stocktradingsystem.stsserver.controller;
 
-import bgroup.stocktradingsystem.stsserver.domain.PersonalAccount;
 import bgroup.stocktradingsystem.stsserver.domain.Stock;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
@@ -17,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -26,11 +26,20 @@ public class StockController {
 
     private Gson gson = new Gson();
 
-    @RequestMapping(value = "/stock/all", method = POST)
+    @RequestMapping(value = "/stock/all", method = GET)
     @ResponseBody
     public String fetchAllStock() {
         return new CustomResponse(new Result(true),
                 stockService.fetchAllStock()).toString();
+    }
+
+    @RequestMapping(value = "/stock/one", method = GET)
+    @ResponseBody
+    public String fetchOneStock(@RequestBody String data) {
+        data = data.substring(1, data.length()-1).replace("\\", "");
+        String code = gson.fromJson(data, String.class);
+        return new CustomResponse(new Result(true),
+                stockService.fetchCertainStock(code)).toString();
     }
 
     @RequestMapping(value = "/stock/update", method = POST)
@@ -51,5 +60,7 @@ public class StockController {
         stockService.updateStockList(stocks);
         return new CustomResponse(new Result(true)).toString();
     }
+
+
 
 }
