@@ -13,7 +13,7 @@ public class ErrorController {
 
     @RequestMapping(value = "/error/login", method = GET)
     @ResponseBody
-    public CustomResponse loginFailed() {
-        return new CustomResponse(new Result(false, "尚未登陆"));
+    public String loginFailed() {
+        return new CustomResponse(new Result(false, "尚未登陆")).toString();
     }
 }

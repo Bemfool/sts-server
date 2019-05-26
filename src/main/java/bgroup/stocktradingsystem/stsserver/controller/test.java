@@ -13,7 +13,7 @@ public class test {
 
     @RequestMapping(value = "/admin/test", method = GET)
     @ResponseBody
-    public CustomResponse test() {
-        return new CustomResponse(new Result(true, "hello"));
+    public String test() {
+        return new CustomResponse(new Result(true, "hello")).toString();
     }
 }

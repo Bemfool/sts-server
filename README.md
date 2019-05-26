@@ -41,6 +41,37 @@ GSON包
 
 
 
+### 股票数据
+
+`/stock/all` 获取所有股票
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List<Stock>
+
+`/stock/update`更新股票数据
+
+- 传入：Stock 新的股票数据（stock_code不能变）
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`stock/update_list`更新一系列股票数据
+
+- 传入：List<Stock> 新的股票数据（stock_code不能变）
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+
+
 
 ### 管理员客户端
 
@@ -55,7 +86,7 @@ GSON包
 
 #### 证券账户
 
-`/securities/personal/new` 
+`/securities/new/personal` 
 
 - 传入：PersonalAccount
 - 传出：
@@ -64,7 +95,7 @@ GSON包
     - false + 原因
   - 内容：null
 
-`/securities/corporate/new` 
+`/securities/new/corporate` 
 
 - 传入：CorporateAccount
 - 传出：
@@ -95,6 +126,8 @@ GSON包
     - true
     - false + 原因
   - 内容：null
+
+
 
 
 ### 用户客户端

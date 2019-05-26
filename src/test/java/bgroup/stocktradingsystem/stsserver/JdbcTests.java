@@ -50,8 +50,8 @@ public class JdbcTests {
 
     @Test
     public void insertNewAdmin() {
-        AdminAccount adminAccount = new AdminAccount("9999999999", "Maria", "000000");
-        adminAccountService.newAccount(adminAccount);
+//        AdminAccount adminAccount = new AdminAccount("9999999999", "Maria", "000000");
+//        adminAccountService.newAccount(adminAccount);
     }
 
 }
