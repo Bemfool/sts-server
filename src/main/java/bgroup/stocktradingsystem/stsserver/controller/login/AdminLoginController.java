@@ -1,10 +1,10 @@
 package bgroup.stocktradingsystem.stsserver.controller.login;
 
 
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
+import bgroup.stocktradingsystem.stsserver.domain.account.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
-import bgroup.stocktradingsystem.stsserver.service.AdminAccountService;
+import bgroup.stocktradingsystem.stsserver.service.account.AdminAccountService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

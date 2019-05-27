@@ -1,8 +1,8 @@
-package bgroup.stocktradingsystem.stsserver.dao;
+package bgroup.stocktradingsystem.stsserver.dao.account;
 
 import java.sql.*;
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
-import bgroup.stocktradingsystem.stsserver.impl.idao.iAdminAccountDAO;
+import bgroup.stocktradingsystem.stsserver.domain.account.AdminAccount;
+import bgroup.stocktradingsystem.stsserver.impl.idao.account.iAdminAccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,9 +15,6 @@ public class AdminAccountDAO implements iAdminAccountDAO {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    /**
-     * @param account 待插入的新账户
-     */
     @Override
     public void insert(AdminAccount account) {
         jdbcTemplate.update("INSERT INTO admin_account(id, name, password, priv) VALUES(?, ?, ?, ?)",
@@ -25,18 +22,12 @@ public class AdminAccountDAO implements iAdminAccountDAO {
 
     }
 
-    /**
-     * @param id 待删除的账户id
-     */
     @Override
     public void delete(String id) {
         jdbcTemplate.update("DELETE FROM admin_account WHERE id = ?", preparedStatement ->
                 preparedStatement.setString(1,id ));
     }
 
-    /**
-     * @param account 新的账户
-     */
     @Override
     public void update(AdminAccount account) {
         jdbcTemplate.update("UPDATE admin_account SET name = ?, password = ?, priv = ?" +
@@ -49,10 +40,6 @@ public class AdminAccountDAO implements iAdminAccountDAO {
                 });
     }
 
-    /**
-     * @param cond 条件
-     * @return 选择的结果
-     */
     @Override
     public List<AdminAccount> select(String cond) {
         if(cond.isEmpty())

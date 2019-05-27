@@ -1,7 +1,7 @@
-package bgroup.stocktradingsystem.stsserver.dao.securities;
+package bgroup.stocktradingsystem.stsserver.dao.account.securities;
 
-import bgroup.stocktradingsystem.stsserver.domain.PersonalAccount;
-import bgroup.stocktradingsystem.stsserver.impl.idao.iPersonalAccountDAO;
+import bgroup.stocktradingsystem.stsserver.domain.account.PersonalAccount;
+import bgroup.stocktradingsystem.stsserver.impl.idao.account.iPersonalAccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

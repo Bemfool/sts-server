@@ -1,4 +1,4 @@
-package bgroup.stocktradingsystem.stsserver.domain;
+package bgroup.stocktradingsystem.stsserver.domain.account;
 
 public class CorporateAccount {
     private int securitiesId;

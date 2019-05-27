@@ -1,4 +1,4 @@
-package bgroup.stocktradingsystem.stsserver.domain;
+package bgroup.stocktradingsystem.stsserver.domain.account;
 
 
 import java.sql.Date;

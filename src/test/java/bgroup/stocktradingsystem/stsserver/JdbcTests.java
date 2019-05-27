@@ -1,22 +1,14 @@
 package bgroup.stocktradingsystem.stsserver;
 
-import bgroup.stocktradingsystem.stsserver.dao.AdminAccountDAO;
-import bgroup.stocktradingsystem.stsserver.dao.StockDAO;
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.Stock;
-import bgroup.stocktradingsystem.stsserver.service.AdminAccountService;
+import bgroup.stocktradingsystem.stsserver.service.account.AdminAccountService;
 import bgroup.stocktradingsystem.stsserver.service.StockService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @RunWith(SpringRunner.class)

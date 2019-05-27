@@ -1,7 +1,7 @@
-package bgroup.stocktradingsystem.stsserver.dao.securities;
+package bgroup.stocktradingsystem.stsserver.dao.account.securities;
 
-import bgroup.stocktradingsystem.stsserver.domain.CorporateAccount;
-import bgroup.stocktradingsystem.stsserver.impl.idao.iCorporateAccountDAO;
+import bgroup.stocktradingsystem.stsserver.domain.account.CorporateAccount;
+import bgroup.stocktradingsystem.stsserver.impl.idao.account.iCorporateAccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,9 +17,6 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    /**
-     * @param account 待插入的法人账户
-     */
     @Override
     public void insert(CorporateAccount account) {
         jdbcTemplate.update("INSERT INTO corporate_account" +
@@ -31,9 +28,6 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
                 corporatePstmtMapper(account, preparedStatement));
     }
 
-    /**
-     * @param id 待删除的法人账户register_id
-     */
     @Override
     public void deleteByRN(String id) {
         jdbcTemplate.update("DELETE FROM corporate_account WHERE register_id = ?", preparedStatement ->
@@ -46,9 +40,6 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
                 preparedStatement.setInt(1, id));
     }
 
-    /**
-     * @param account 要保存到已被删除的数据库中的账户
-     */
     @Override
     public void saveDeleted(CorporateAccount account) {
         jdbcTemplate.update("INSERT INTO corporate_deleted" +
@@ -60,9 +51,6 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
                 corporatePstmtMapper(account, preparedStatement));
     }
 
-    /**
-     * @param account 更新后的法人账户
-     */
     @Override
     public void update(CorporateAccount account) {
         jdbcTemplate.update("UPDATE corporate_account SET " +
@@ -92,10 +80,6 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
         });
     }
 
-    /**
-     * @param cond 条件
-     * @return 选择的结果
-     */
     @Override
     public List<CorporateAccount> select(String cond) {
         if(cond.isEmpty())

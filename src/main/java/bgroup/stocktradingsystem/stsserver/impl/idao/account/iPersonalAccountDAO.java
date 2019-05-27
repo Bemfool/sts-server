@@ -1,6 +1,6 @@
-package bgroup.stocktradingsystem.stsserver.impl.idao;
+package bgroup.stocktradingsystem.stsserver.impl.idao.account;
 
-import bgroup.stocktradingsystem.stsserver.domain.PersonalAccount;
+import bgroup.stocktradingsystem.stsserver.domain.account.PersonalAccount;
 
 import java.util.List;
 

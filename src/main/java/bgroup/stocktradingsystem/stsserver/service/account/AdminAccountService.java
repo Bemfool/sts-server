@@ -1,7 +1,7 @@
-package bgroup.stocktradingsystem.stsserver.service;
+package bgroup.stocktradingsystem.stsserver.service.account;
 
-import bgroup.stocktradingsystem.stsserver.dao.AdminAccountDAO;
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
+import bgroup.stocktradingsystem.stsserver.dao.account.AdminAccountDAO;
+import bgroup.stocktradingsystem.stsserver.domain.account.AdminAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

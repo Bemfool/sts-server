@@ -1,11 +1,12 @@
-package bgroup.stocktradingsystem.stsserver.controller;
+package bgroup.stocktradingsystem.stsserver.controller.account;
 
-import bgroup.stocktradingsystem.stsserver.domain.CorporateAccount;
-import bgroup.stocktradingsystem.stsserver.domain.PersonalAccount;
+import bgroup.stocktradingsystem.stsserver.domain.account.CorporateAccount;
+import bgroup.stocktradingsystem.stsserver.domain.account.PersonalAccount;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
-import bgroup.stocktradingsystem.stsserver.service.FundAccountService;
-import bgroup.stocktradingsystem.stsserver.service.SecuritiesAccountService;
+import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
+import bgroup.stocktradingsystem.stsserver.service.account.SecuritiesAccountService;
+import bgroup.stocktradingsystem.stsserver.service.relation.SFRelationService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ public class SecuritiesController {
     SecuritiesAccountService securitiesAccountService;
     @Autowired
     FundAccountService fundAccountService;
+    @Autowired
+    SFRelationService sfRelationService;
 
     private Gson gson = new Gson();
 
@@ -26,7 +29,7 @@ public class SecuritiesController {
 
     /**
      * @param data 新的个人账户信息
-     * @return 成功或失败原因
+     * @return 成功或失败原因 // TODO 返回新建的ID
      */
     @RequestMapping(value = "/securities/new/personal", method = POST)
     @ResponseBody
@@ -66,6 +69,8 @@ public class SecuritiesController {
         securitiesAccountService.deletePersonalAccountById(Integer.valueOf(oldSecuritiesId));
         account.setSecuritiesId(Integer.valueOf(newSecuritiesId));
         securitiesAccountService.createPersonalAccount(account);
+        sfRelationService.alterSecuritiesId(Integer.valueOf(oldSecuritiesId),
+                Integer.valueOf(newSecuritiesId));
         return new CustomResponse(new Result(true)).toString();
         // TODO 失败判断
     }
@@ -143,6 +148,8 @@ public class SecuritiesController {
         securitiesAccountService.deleteCorporateAccountById(Integer.valueOf(oldSecuritiesId));
         account.setSecuritiesId(Integer.valueOf(newSecuritiesId));
         securitiesAccountService.createCorporateAccount(account);
+        sfRelationService.alterSecuritiesId(Integer.valueOf(oldSecuritiesId),
+                Integer.valueOf(newSecuritiesId));
         return new CustomResponse(new Result(true)).toString();
         // TODO 失败判断
     }
@@ -186,7 +193,7 @@ public class SecuritiesController {
     @ResponseBody
     public String fetchConnectedFund(@PathVariable String securitiesId) {
         return new CustomResponse(new Result(true),
-                fundAccountService.fetchConnectedFundId(Integer.valueOf(securitiesId)))
+                sfRelationService.selectRelationWithSecurities(Integer.valueOf(securitiesId)))
                 .toString();
         // TODO 失败判断
     }

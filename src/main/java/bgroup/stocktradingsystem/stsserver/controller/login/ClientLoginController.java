@@ -1,10 +1,9 @@
 package bgroup.stocktradingsystem.stsserver.controller.login;
 
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
-import bgroup.stocktradingsystem.stsserver.domain.FundAccount;
+import bgroup.stocktradingsystem.stsserver.domain.account.FundAccount;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
-import bgroup.stocktradingsystem.stsserver.service.FundAccountService;
+import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,14 +34,14 @@ public class ClientLoginController {
         data = data.substring(1, data.length()-1).replace("\\", "");
         FundAccount fundAccount = gson.fromJson(data, FundAccount.class);
 
-        FundAccount localAccount = fundAccountService.fetchAccount(fundAccount.getId());
+        FundAccount localAccount = fundAccountService.fetchAccount(fundAccount.getFundId());
         if(localAccount!=null) {
             if(localAccount.getPassword().equals(fundAccount.getPassword())) {
                 HttpSession session = request.getSession();
                 if(session.getAttribute("CLIENT_SESSION_ID") != null) {
                     return new CustomResponse(new Result(false, "重复登陆")).toString();
                 } else {
-                    session.setAttribute("CLIENT_SESSION_ID", fundAccount.getId());
+                    session.setAttribute("CLIENT_SESSION_ID", fundAccount.getFundId());
                 }
                 return new CustomResponse(new Result(true, "登陆成功"), localAccount).toString();
             } else {

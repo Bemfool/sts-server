@@ -1,6 +1,5 @@
 package bgroup.stocktradingsystem.stsserver.impl.idao;
 
-import bgroup.stocktradingsystem.stsserver.domain.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.domain.Index;
 
 import java.util.List;

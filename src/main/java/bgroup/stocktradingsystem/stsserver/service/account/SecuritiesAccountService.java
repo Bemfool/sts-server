@@ -1,9 +1,9 @@
-package bgroup.stocktradingsystem.stsserver.service;
+package bgroup.stocktradingsystem.stsserver.service.account;
 
-import bgroup.stocktradingsystem.stsserver.dao.securities.CorporateAccountDAO;
-import bgroup.stocktradingsystem.stsserver.dao.securities.PersonalAccountDAO;
-import bgroup.stocktradingsystem.stsserver.domain.CorporateAccount;
-import bgroup.stocktradingsystem.stsserver.domain.PersonalAccount;
+import bgroup.stocktradingsystem.stsserver.dao.account.securities.CorporateAccountDAO;
+import bgroup.stocktradingsystem.stsserver.dao.account.securities.PersonalAccountDAO;
+import bgroup.stocktradingsystem.stsserver.domain.account.CorporateAccount;
+import bgroup.stocktradingsystem.stsserver.domain.account.PersonalAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
