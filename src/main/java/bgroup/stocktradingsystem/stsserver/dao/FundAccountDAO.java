@@ -48,6 +48,12 @@ public class FundAccountDAO implements iFundAccountDAO {
             return jdbcTemplate.query("SELECT * FROM fund_account WHERE " + cond, new FundAccountMapper());
     }
 
+    public List<Integer> selectConnectionWithSecurities(int securitiesId) {
+        return jdbcTemplate.query("SELECT * FROM securities_fund WHERE securities_id = " + securitiesId ,
+                (resultSet, i) -> resultSet.getInt("fund_id"));
+    }
+
+
     class FundAccountMapper implements RowMapper<FundAccount> {
         @Override
         public FundAccount mapRow(ResultSet resultSet, int rowNum) throws SQLException {

@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +17,9 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * @param account 待插入的法人账户
+     */
     @Override
     public void insert(CorporateAccount account) {
         jdbcTemplate.update("INSERT INTO corporate_account" +
@@ -23,29 +27,42 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
                 "legal_representative_id, legal_representative_name," +
                 "legal_representative_phone_no, legal_representative_add," +
                 "authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add," +
-                "state VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", preparedStatement -> {
-            preparedStatement.setInt(1, account.getSecuritiesId() );
-            preparedStatement.setString(2, account.getRegisterNo());
-            preparedStatement.setString(3, account.getBusinessLicenseNo() );
-            preparedStatement.setString(4, account.getLegalRepresentativeId() );
-            preparedStatement.setString(5, account.getLegalRepresentativeName() );
-            preparedStatement.setString(6, account.getLegalRepresentativePhoneNo() );
-            preparedStatement.setString(7, account.getLegalRepresentativeAdd() );
-            preparedStatement.setString(8, account.getAuthorizerName() );
-            preparedStatement.setString(9, account.getAuthorizerId() );
-            preparedStatement.setString(10, account.getAuthorizerPhoneNo() );
-            preparedStatement.setString(11, account.getAuthorizerAdd() );
-            preparedStatement.setInt(12, account.getState() );
-        });
+                "state) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", preparedStatement ->
+                corporatePstmtMapper(account, preparedStatement));
+    }
+
+    /**
+     * @param id 待删除的法人账户register_id
+     */
+    @Override
+    public void deleteByRN(String id) {
+        jdbcTemplate.update("DELETE FROM corporate_account WHERE register_id = ?", preparedStatement ->
+                preparedStatement.setString(1, id));
     }
 
     @Override
-    public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM corporate_account WHERE securities_id = ?", preparedStatement -> {
-            preparedStatement.setInt(1, id);
-        });
+    public void deleteById(int id) {
+        jdbcTemplate.update("DELETE FROM corporate_account WHERE securities_id = ?", preparedStatement ->
+                preparedStatement.setInt(1, id));
     }
 
+    /**
+     * @param account 要保存到已被删除的数据库中的账户
+     */
+    @Override
+    public void saveDeleted(CorporateAccount account) {
+        jdbcTemplate.update("INSERT INTO corporate_deleted" +
+                "(securities_id, register_no, business_license_no," +
+                "legal_representative_id, legal_representative_name," +
+                "legal_representative_phone_no, legal_representative_add," +
+                "authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add," +
+                "state) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", preparedStatement ->
+                corporatePstmtMapper(account, preparedStatement));
+    }
+
+    /**
+     * @param account 更新后的法人账户
+     */
     @Override
     public void update(CorporateAccount account) {
         jdbcTemplate.update("UPDATE corporate_account SET " +
@@ -75,6 +92,10 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
         });
     }
 
+    /**
+     * @param cond 条件
+     * @return 选择的结果
+     */
     @Override
     public List<CorporateAccount> select(String cond) {
         if(cond.isEmpty())
@@ -84,6 +105,9 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
 
     }
 
+    /**
+     * 法人账户与数据库返回结果的对应关系
+     */
     class CorporateAccountMapper implements RowMapper<CorporateAccount> {
         @Override
         public CorporateAccount mapRow(ResultSet resultSet, int rowNum) throws SQLException {
@@ -102,6 +126,26 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
             account.setState(resultSet.getInt("state"));
             return account;
         }
+    }
+
+    /**
+     * @param account 要对应的法人账户
+     * @param preparedStatement 预语句
+     * @throws SQLException 数据库异常
+     */
+    private void corporatePstmtMapper(CorporateAccount account, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setInt(1, account.getSecuritiesId() );
+        preparedStatement.setString(2, account.getRegisterNo());
+        preparedStatement.setString(3, account.getBusinessLicenseNo() );
+        preparedStatement.setString(4, account.getLegalRepresentativeId() );
+        preparedStatement.setString(5, account.getLegalRepresentativeName() );
+        preparedStatement.setString(6, account.getLegalRepresentativePhoneNo() );
+        preparedStatement.setString(7, account.getLegalRepresentativeAdd() );
+        preparedStatement.setString(8, account.getAuthorizerName() );
+        preparedStatement.setString(9, account.getAuthorizerId() );
+        preparedStatement.setString(10, account.getAuthorizerPhoneNo() );
+        preparedStatement.setString(11, account.getAuthorizerAdd() );
+        preparedStatement.setInt(12, account.getState() );
     }
 
 }

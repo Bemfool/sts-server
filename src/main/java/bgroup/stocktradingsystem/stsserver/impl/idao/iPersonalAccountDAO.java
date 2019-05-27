@@ -5,8 +5,10 @@ import bgroup.stocktradingsystem.stsserver.domain.PersonalAccount;
 import java.util.List;
 
 public interface iPersonalAccountDAO {
-    public void insert(PersonalAccount account);
-    public void update(PersonalAccount account);
-    public void delete(int id);
-    public List<PersonalAccount> select(String cond);
+    void insert(PersonalAccount account);
+    void update(PersonalAccount account);
+    void deleteByIN(String id);
+    void deleteById(int id);
+    void saveDeleted(PersonalAccount account);
+    List<PersonalAccount> select(String cond);
 }

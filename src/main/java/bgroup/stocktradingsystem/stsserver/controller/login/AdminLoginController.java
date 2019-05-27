@@ -25,6 +25,11 @@ public class AdminLoginController {
 
     private Gson gson = new Gson();
 
+    /**
+     * @param data 带有账号和密码的管理员账户类型
+     * @param request 用于获得Session
+     * @return 成功或者失败原因
+     */
     @RequestMapping(value = "/admin/login", method = POST)
     @ResponseBody
     public String adminLogin(@RequestBody String data, HttpServletRequest request){
@@ -49,6 +54,12 @@ public class AdminLoginController {
         }
     }
 
+
+    /**
+     * @param data 新的密码
+     * @param request 用于获得Session, 从而获得账户id
+     * @return 成功或失败原因
+     */
     @RequestMapping(value = "/admin/update/password", method = POST)
     @ResponseBody
     public String adminChangePassword(@RequestBody String data, HttpServletRequest request) {
@@ -61,7 +72,6 @@ public class AdminLoginController {
         } else {
             return new CustomResponse(new Result(false, "账号不存在")).toString();
         }
-
     }
 
 }

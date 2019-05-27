@@ -20,11 +20,13 @@
 
 将其中的工具类`Utils`放到项目内，使用其中的`doHttp`函数，具体使用见其中的`Main`函数。
 
+**[注意] 更新了如何处理收到的数据为List类型** 
+
 
 
 ## 请求格式
 
-`url地址` 功能
+`url地址` 功能【方法：POST/GET】
 
 * 传入（Json）
 
@@ -33,7 +35,9 @@
   * 结果（Result（Boolean status, String cause））
   * 内容（Object）
 
-*[注意] 传入和接收倒要进行JSON的转换。* 
+**`url`中若有`{输入参数}`表示将参数输入在地址当中。 **
+
+[注意] 传入和接收倒要进行JSON的转换。* 
 
 *[注意] 暂时不可使用的功能将持续更新，请关注更新并及时测试。*
 
@@ -41,7 +45,7 @@
 
 ### 股票数据
 
-`/stock/all` 获取所有股票
+`/stock/all` 获取所有股票【GET】
 
 - 传入：null
 - 传出：
@@ -50,7 +54,7 @@
     - false + 原因
   - 内容：List<Stock>
 
-`stock/one` 获取单只股票信息
+`stock/one` 获取单只股票信息【GET】
 
 - 传入：stock_code
 - 传出：
@@ -59,7 +63,7 @@
     - false + 原因
   - 内容：Stock
 
-`/stock/update`更新股票数据
+`/stock/update`更新股票数据【POST】
 
 - 传入：Stock 新的股票数据（stock_code不能变）
 - 传出：
@@ -68,7 +72,7 @@
     - false + 原因
   - 内容：null
 
-`stock/update_list`更新一系列股票数据
+`stock/update_list`更新一系列股票数据【POST】
 
 - 传入：List<Stock> 新的股票数据（stock_code不能变）
 - 传出：
@@ -79,7 +83,7 @@
 
 ### 指数信息
 
-`index/all`  取所有指数 
+`index/all`  取所有指数 【GET】
 
 - 传入：null
 - 传出：
@@ -88,7 +92,7 @@
     - false + 原因
   - 内容：List<Index>
 
-`index/one` 取单只指数
+`index/one` 取单只指数【GET】
 
 - 传入：index_code
 - 传出：
@@ -97,7 +101,7 @@
     - false + 原因
   - 内容：Index
 
-`index/update`   
+`index/update`   【POST】
 
 - 传入：Index 新的指数数据（index_code不能变）
 - 传出：
@@ -106,7 +110,7 @@
     - false + 原因
   - 内容：null
 
-`index/update_list`   
+`index/update_list`   【POST】
 
 - 传入：List<Index> 新的指数数据（index_code不能变）
 - 传出：
@@ -118,7 +122,7 @@
 
 ### 管理员客户端
 
-`/admin/login` 登陆 
+`/admin/login` 登陆 【POST】
 
 - 传入：AdminAccount
 - 传出：
@@ -129,7 +133,7 @@
 
 #### 证券账户
 
-`/securities/new/personal` 
+`/securities/new/personal` 添加个人账户【POST】
 
 - 传入：PersonalAccount
 - 传出：
@@ -138,7 +142,7 @@
     - false + 原因
   - 内容：null
 
-`/securities/new/corporate` 
+`/securities/new/corporate` 添加法人账户【POST】
 
 - 传入：CorporateAccount
 - 传出：
@@ -146,6 +150,79 @@
     - true
     - false + 原因
   - 内容：null
+
+`/securities/personal` 获取个人账户【GET】
+
+- 传入：String id_no
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：PersonalAccount
+
+`/securities/corporate` 获取法人账户【GET】
+
+- 传入：String register_no
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：CorporateAccount
+
+`/securities/fund_connected/{securitiesId}` 获取相关联的资金账户【GET】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List< Integer>
+
+`/securities/update/personal/state/{idNo}/{newState}` 修改个人账户状态【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`/securities/update/corporate/state/{registerNo}/{newState}` 修改法人账户状态【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`/securities/alter/personal/{oldSecuritiesId}/{newSecuritiesId}` 替换个人账户的ID，并将旧的放入已删除表【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`/securities/delete/person/{idNo}` 删除个人账户，并将旧的账户放入已删除表【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`/securities/delete/corporate/{registerNo}` 删除法人账户，并将旧的账户放入已删除表【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+  - 
 
 #### 资金账户
 
@@ -159,7 +236,7 @@
 
 #### 内部管理
 
-`/admin/update/password` 修改密码
+`/admin/update/password` 修改密码【POST】
 
 - 传入：String newPassword
 
@@ -173,7 +250,7 @@
 
 ### 用户客户端
 
-`/client/login` 登陆 
+`/client/login` 登陆 【POST】
 
 - 传入：FundAccount
 - 传出：

@@ -10,6 +10,9 @@ import java.io.IOException;
 public class ClientLoginInterceptor  extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
+        if(httpServletRequest.getRequestURI().substring(0,7).equals("/admin/")) {
+            return false;
+        }
         HttpSession session = httpServletRequest.getSession();
         if(session.getAttribute("CLIENT_SESSION_ID") != null) {
             return true;

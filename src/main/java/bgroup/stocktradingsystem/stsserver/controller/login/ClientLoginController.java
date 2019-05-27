@@ -24,6 +24,11 @@ public class ClientLoginController {
 
     private Gson gson = new Gson();
 
+    /**
+     * @param data 带有账号和密码的资金账户类型
+     * @param request 用于获得Session
+     * @return 成功或者失败原因
+     */
     @RequestMapping(value = "/client/login", method = POST)
     @ResponseBody
     public String clientLogin(@RequestBody String data, HttpServletRequest request){

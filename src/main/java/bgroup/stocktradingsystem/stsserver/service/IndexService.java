@@ -16,8 +16,8 @@ public class IndexService {
         return indexDAO.select("");
     }
 
-    public List<Index> fetchCertainIndex(String code) {
-        return indexDAO.select("index_code = '" + code + "'");
+    public Index fetchCertainIndex(String code) {
+        return indexDAO.select("index_code = '" + code + "'").get(0);
     }
 
     public void updateIndex(Index index) {

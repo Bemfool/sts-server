@@ -20,4 +20,8 @@ public class FundAccountService {
         else
             return accounts.get(0);
     }
+
+    public List<Integer> fetchConnectedFundId(int securitiesId) {
+        return fundAccountDAO.selectConnectionWithSecurities(securitiesId);
+    }
 }

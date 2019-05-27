@@ -4,6 +4,7 @@ public class AdminAccount {
     private String id;
     private String password;
     private String name;
+    private int priv;
 
     public AdminAccount() {
     }
@@ -19,14 +20,12 @@ public class AdminAccount {
         this.password = password;
     }
 
-    public boolean isExist() {
-        // TODO
-        return true;
+    public int getPriv() {
+        return priv;
     }
 
-    public boolean isValid() {
-        // TODO
-        return true;
+    public void setPriv(int priv) {
+        this.priv = priv;
     }
 
     public String getId() {

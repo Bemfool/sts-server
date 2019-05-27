@@ -11,6 +11,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class ErrorController {
 
+    /**
+     * @return 登陆失败的消息
+     */
     @RequestMapping(value = "/error/login", method = GET)
     @ResponseBody
     public String loginFailed() {
