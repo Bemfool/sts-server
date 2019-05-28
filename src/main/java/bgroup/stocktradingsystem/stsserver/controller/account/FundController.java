@@ -1,8 +1,10 @@
 package bgroup.stocktradingsystem.stsserver.controller.account;
 
+import bgroup.stocktradingsystem.stsserver.domain.TransactionLog;
 import bgroup.stocktradingsystem.stsserver.domain.account.FundAccount;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
+import bgroup.stocktradingsystem.stsserver.service.TransactionLogService;
 import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class FundController {
     @Autowired
     FundAccountService fundAccountService;
+    @Autowired
+    TransactionLogService transactionLogService;
 
     private Gson gson = new Gson();
 
@@ -68,12 +72,14 @@ public class FundController {
         // TODO 失败判断
     }
 
-    @RequestMapping(value = "/fund/transfer/{fundId}/{amount}", method = POST)
+    @RequestMapping(value = "/fund/transfer/", method = POST)
     @ResponseBody
-    public String transfer(@PathVariable String fundId, @PathVariable String amount) {
-        fundAccountService.transfer(Integer.valueOf(fundId), Integer.valueOf(amount));
-        return new CustomResponse(new Result(true),
-                fundAccountService.fetchAccount(Integer.valueOf(fundId))).toString();
+    public String transfer(@RequestBody String data) {
+        data = data.substring(1, data.length()-1).replace("\\", "");
+        TransactionLog log = gson.fromJson(data, TransactionLog.class);
+        fundAccountService.updateBalance(log.getFundId(), log.getChangeAmount());
+        transactionLogService.addLog(log);
+        return new CustomResponse(new Result(true)).toString();
         // TODO 失败判断
     }
 

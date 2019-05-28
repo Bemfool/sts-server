@@ -46,7 +46,7 @@ public class FundAccountService {
         fundAccountDAO.delete(fundId);
     }
 
-    public void transfer(int fundId, int amount) {
+    public void updateBalance(int fundId, double amount) {
         FundAccount account = fetchAccount(fundId);
         account.setBalance(account.getBalance() + amount);
         fundAccountDAO.update(account);

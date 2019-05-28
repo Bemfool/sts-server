@@ -226,13 +226,73 @@
 
 #### 资金账户
 
-`/fund/new` 创建新账户 **【暂时不可使用】**
+`/fund/new` 创建新账户 【GET】
 
-`/fund/balance/update` 更新利息 **【暂时不可使用】**
+- 传入：FundAccount
+- 传出：
+  - 结果：
+    - true
+    - false+原因
+  - 内容：int FundId
 
-`/fund/password/update` 更新密码 **【暂时不可使用】**
+`/fund/update/balance` 更新利息【POST】**【暂时无法使用】**
 
-`/fund/state/check` 检查状态 **【暂时不可使用】**
+- 传入：无
+- 传出：
+  - 结果：
+    - true
+    - false+原因
+
+`/fund/update/password/{fundId}/{newPassword}` 更新密码 【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false+原因
+
+`/fund/check/state/{fundId}` 检查状态【GET】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true：可用
+    - false：不可用
+  - 内容：
+    - Boolean 状态 
+
+`/fund/change/state/{fundId}` 账户状态状态改变【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true：完成修改
+    - false+原因
+
+`/fund/{fundId}` 账户信息查询【GET】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false+原因
+  - 内容：FundAccount
+
+`/fund/delete/{fundId}`删除账户【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false+原因
+
+`/fund/transfer/`新建交易记录并更新余额【POST】
+
+- 传入：TransactionLog （不用设置action_id）
+- 传出：
+  - 结果：
+    - true
+    - false+原因
 
 #### 内部管理
 
