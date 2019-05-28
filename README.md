@@ -41,8 +41,6 @@
 
 *[注意] 暂时不可使用的功能将持续更新，请关注更新并及时测试。*
 
-
-
 ### 股票数据
 
 `/stock/all` 获取所有股票【GET】
@@ -75,6 +73,24 @@
 `stock/update_list`更新一系列股票数据【POST】
 
 - 传入：List<Stock> 新的股票数据（stock_code不能变）
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`stock/update_list/state/{newState` 更新状态【POST】
+
+- 传入：List<Stock> 待修改的股票数据
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`stock/update_list/limit/{newLimit}`更新涨跌幅【POST】
+
+- 传入：List<Stock> 待修改的股票数据
 - 传出：
   - 结果：
     - true
@@ -130,6 +146,15 @@
     - true
     - false + 原因
   - 内容：AdminAccount
+
+`admin/logout` 登出【POST】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
 
 #### 证券账户
 
@@ -308,6 +333,8 @@
   - 内容：null
 
 
+
+
 ### 用户客户端
 
 `/client/login` 登陆 【POST】
@@ -326,3 +353,5 @@
 数据池：Druid（加密+监控管理）
 
 增强鲁棒性。
+
+日志记录。

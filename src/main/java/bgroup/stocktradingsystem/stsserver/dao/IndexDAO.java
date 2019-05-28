@@ -49,13 +49,12 @@ public class IndexDAO implements iIndexDAO {
     public List<Index> select(String cond) {
             List<Index> indices;
             if (cond.isEmpty()){
-                indices = jdbcTemplate.query("SELECT * FROM stock",
+                indices = jdbcTemplate.query("SELECT * FROM idx",
                         new IndexMapper());
                 return indices;
             } else
-                return jdbcTemplate.query("SELECT * FROM stock WHERE " + cond,
+                return jdbcTemplate.query("SELECT * FROM idx WHERE " + cond,
                         new IndexMapper());
-
     }
 
     class IndexMapper implements RowMapper<Index> {
