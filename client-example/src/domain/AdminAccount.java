@@ -1,3 +1,5 @@
+package domain;
+
 public class AdminAccount {
     private String id;
     private String password;

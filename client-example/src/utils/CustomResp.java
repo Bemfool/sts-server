@@ -1,12 +1,13 @@
 package utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class CustomResp {
     private String resultJSON;
     private String objectJSON;
-    private Gson json = new Gson();
+    private Gson json = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     public CustomResp(String oneJSON) {
         resultJSON = new Gson().fromJson(oneJSON, CustomResp.class).resultJSON;

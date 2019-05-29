@@ -9,6 +9,7 @@ import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import bgroup.stocktradingsystem.stsserver.service.account.SecuritiesAccountService;
 import bgroup.stocktradingsystem.stsserver.service.relation.SFRelationService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class SecuritiesController {
     @Autowired
     StockService stockService;
 
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     /* *********************** Personal Account ****************************** */
 

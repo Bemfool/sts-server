@@ -44,7 +44,11 @@ public class AdminLoginController {
     @RequestMapping(value = "/admin/login", method = POST)
     @ResponseBody
     public String adminLogin(@RequestBody String data, HttpServletRequest request){
-        data = data.substring(1, data.length()-1).replace("\\", "");
+        System.out.println(data);
+        if(data.charAt(0)=='[')
+            data = data.substring(1, data.length()-1).replace("\\", "");
+        else
+            data = data.replace("\\", "");
         AdminAccount adminAccount = gson.fromJson(data, AdminAccount.class);
         AdminAccount localAccount = adminAccountService.fetchAccount(adminAccount.getId());
         if(localAccount!=null)

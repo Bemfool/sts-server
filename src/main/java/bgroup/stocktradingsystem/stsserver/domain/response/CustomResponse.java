@@ -1,11 +1,12 @@
 package bgroup.stocktradingsystem.stsserver.domain.response;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class CustomResponse {
     private String resultJSON;
     private String objectJSON;
-    private Gson json = new Gson();
+    private Gson json  = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     public CustomResponse(String resultJSON, String objectJSON) {
         this.resultJSON = resultJSON;
