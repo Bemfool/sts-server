@@ -2,10 +2,13 @@ package bgroup.stocktradingsystem.stsserver.service.account;
 
 import bgroup.stocktradingsystem.stsserver.dao.account.securities.CorporateAccountDAO;
 import bgroup.stocktradingsystem.stsserver.dao.account.securities.PersonalAccountDAO;
+import bgroup.stocktradingsystem.stsserver.domain.Stock;
 import bgroup.stocktradingsystem.stsserver.domain.account.CorporateAccount;
 import bgroup.stocktradingsystem.stsserver.domain.account.PersonalAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SecuritiesAccountService {
@@ -75,4 +78,5 @@ public class SecuritiesAccountService {
     public void updateCorporateAccount(CorporateAccount account) {
         corporateAccountDAO.update(account);
     }
+
 }

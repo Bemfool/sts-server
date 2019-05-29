@@ -28,4 +28,8 @@ public class StockService {
         for (Stock stock : stocks)
             stockDAO.update(stock);
     }
+
+    public List<Stock> fetchConnectedStock(int securitiesId) {
+        return stockDAO.selectFromSSRelation(securitiesId);
+    }
 }

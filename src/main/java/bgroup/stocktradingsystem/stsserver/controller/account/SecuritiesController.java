@@ -4,6 +4,7 @@ import bgroup.stocktradingsystem.stsserver.domain.account.CorporateAccount;
 import bgroup.stocktradingsystem.stsserver.domain.account.PersonalAccount;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
+import bgroup.stocktradingsystem.stsserver.service.StockService;
 import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import bgroup.stocktradingsystem.stsserver.service.account.SecuritiesAccountService;
 import bgroup.stocktradingsystem.stsserver.service.relation.SFRelationService;
@@ -22,6 +23,8 @@ public class SecuritiesController {
     FundAccountService fundAccountService;
     @Autowired
     SFRelationService sfRelationService;
+    @Autowired
+    StockService stockService;
 
     private Gson gson = new Gson();
 
@@ -194,6 +197,21 @@ public class SecuritiesController {
     public String fetchConnectedFund(@PathVariable String securitiesId) {
         return new CustomResponse(new Result(true),
                 sfRelationService.selectRelationWithSecurities(Integer.valueOf(securitiesId)))
+                .toString();
+        // TODO 失败判断
+    }
+
+    /**
+     * 获取证券账户相关的股票数据
+     *
+     * @param securitiesId 指定证券账户ID
+     * @return 相关联的股票数据
+     */
+    @RequestMapping(value = "/securities/stock_connected/{securitiesId}", method = GET)
+    @ResponseBody
+    public String fetchConnectedStock(@PathVariable String securitiesId) {
+        return new CustomResponse(new Result(true),
+                stockService.fetchConnectedStock(Integer.valueOf(securitiesId)))
                 .toString();
         // TODO 失败判断
     }

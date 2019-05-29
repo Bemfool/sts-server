@@ -136,7 +136,7 @@
   - 内容：null
 
 
-### 管理员客户端
+#### 管理员客户端登陆相关
 
 `/admin/login` 登陆 【POST】
 
@@ -247,7 +247,15 @@
     - true
     - false + 原因
   - 内容：null
-  - 
+
+`securities/stock_connected/{securities_id}` 获取与该证券账户相关联的股票 
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List<Stock>
 
 #### 资金账户
 
@@ -335,7 +343,7 @@
 
 
 
-### 用户客户端
+#### 用户客户端登陆相关
 
 `/client/login` 登陆 【POST】
 
@@ -347,6 +355,27 @@
   - 内容：FundAccount
 
 
+#### 指令操作
+
+`command/upload`  上传买/卖指令，同时更新用户余额或股票库存【POST】【暂时不可测试】
+
+- 传入：Command
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`command/revoke` 撤销买/卖指令，同时同时更新用户余额或股票库存【POST】【暂时不可测试】
+
+- 传入：Command
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+
 
 ## TODO
 
@@ -354,4 +383,4 @@
 
 增强鲁棒性。
 
-日志记录。
+日志

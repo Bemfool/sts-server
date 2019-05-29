@@ -16,6 +16,16 @@ import javax.servlet.http.HttpSession;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+
+/**
+ * ClientLoginController是用户客户端登陆相关的控制类。
+ * 包括以下操作：
+ * <ul>
+ *     <li>登陆操作</li>
+ * </ul>
+ *
+ * @version 0.0.1
+ */
 @RestController
 public class ClientLoginController {
     @Autowired
@@ -24,6 +34,8 @@ public class ClientLoginController {
     private Gson gson = new Gson();
 
     /**
+     * 用户登陆判断。
+     *
      * @param data 带有账号和密码的资金账户类型
      * @param request 用于获得Session
      * @return 成功或者失败原因

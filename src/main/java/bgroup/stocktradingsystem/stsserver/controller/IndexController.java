@@ -27,6 +27,8 @@ public class IndexController {
     private Gson gson = new Gson();
 
     /**
+     * 获取所有指数
+     *
      * @return Index类型的List, 包含所有指数信息
      */
     @RequestMapping(value = "/index/all", method = GET)

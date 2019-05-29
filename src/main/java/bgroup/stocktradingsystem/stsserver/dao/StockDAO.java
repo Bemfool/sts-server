@@ -65,6 +65,14 @@ public class StockDAO implements iStockDAO {
                     new StockMapper());
     }
 
+    public List<Stock> selectFromSSRelation(int securitiesId) {
+        return jdbcTemplate.query("SELECT stock_code, stock_name, stock_price," +
+                "stock_state, floor_price, celling_price " +
+                "FROM securities_stock NATURAL JOIN stock" +
+                "WHERE securities_id = " + securitiesId, new StockMapper());
+    }
+
+
     class StockMapper implements RowMapper<Stock> {
         @Override
         public Stock mapRow(ResultSet resultSet, int rowNum) throws  SQLException {

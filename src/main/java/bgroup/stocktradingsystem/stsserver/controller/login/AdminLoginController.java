@@ -25,7 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  *     <li>注销操作</li>
  * </ul>
  *
- * @Version 0.0.1
+ * @version 0.0.1
  */
 @RestController
 public class AdminLoginController {
@@ -35,7 +35,7 @@ public class AdminLoginController {
     private Gson gson = new Gson();
 
     /**
-     * 管理员登陆
+     * 管理员登陆。
      *
      * @param data 带有账号和密码的管理员账户类型
      * @param request 用于获得Session
@@ -62,7 +62,7 @@ public class AdminLoginController {
     }
 
     /**
-     * 更新密码
+     * 更新密码。
      *
      * @param newPassword 新的密码
      * @param request 用于获得Session, 从而获得账户id
@@ -81,7 +81,7 @@ public class AdminLoginController {
     }
 
     /**
-     * 注销管理员账户
+     * 注销管理员账户。
      *
      * @param request 用于清空Session中绑定的ID
      * @return 成功或失败原因
