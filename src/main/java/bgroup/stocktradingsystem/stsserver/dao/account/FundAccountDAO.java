@@ -71,7 +71,13 @@ public class FundAccountDAO implements iFundAccountDAO {
 
     public List<Integer> selectFromPFRelation(int securitiesId) {
         return jdbcTemplate.query("SELECT fund_id FROM personal_account " +
-                "NATURAL JOIN fund_account WHERE securities_id = " + securitiesId,
+                "INNER JOIN fund_account USING(securities_id) WHERE securities_id = " + securitiesId,
+                (resultSet, i) -> resultSet.getInt("fund_id"));
+    }
+
+    public List<Integer> selectFromCFRelation(int securitiesId) {
+        return jdbcTemplate.query("SELECT fund_id FROM corporate_account " +
+                        "INNER JOIN fund_account USING(securities_id) WHERE securities_id = " + securitiesId,
                 (resultSet, i) -> resultSet.getInt("fund_id"));
     }
 

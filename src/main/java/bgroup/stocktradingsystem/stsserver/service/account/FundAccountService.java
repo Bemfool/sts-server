@@ -53,7 +53,9 @@ public class FundAccountService {
     }
 
     public List<Integer> fetchConnectedFundAccount( int securitiesId) {
-        return fundAccountDAO.selectFromPFRelation(securitiesId);
+        List<Integer> list = fundAccountDAO.selectFromPFRelation(securitiesId);
+        list.addAll(fundAccountDAO.selectFromCFRelation(securitiesId));
+        return list;
     }
 
     public void alterSecuritiesId(int oldId, int newId) {

@@ -58,7 +58,7 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
                 "business_license_no = ?," +
                 "legal_representative_id = ?," +
                 "legal_representative_name = ?," +
-                "legal_representative_phone = ?," +
+                "legal_representative_phone_no = ?," +
                 "legal_representative_add = ?," +
                 "authorizer_name = ?," +
                 "authorizer_id = ?," +

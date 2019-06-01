@@ -7,8 +7,15 @@ import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import bgroup.stocktradingsystem.stsserver.service.TransactionLogService;
 import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -30,12 +37,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 public class FundController {
+    /* 需要使用到的服务 */
     @Autowired
     FundAccountService fundAccountService;
     @Autowired
     TransactionLogService transactionLogService;
 
+    /* JSON语句处理 */
     private Gson gson = new Gson();
+
+    /* 日志 */
+//    private static final Logger logger = LoggerFactory.getLogger(FundController.class);
 
     /**
      * 创建新的资金账户
@@ -46,11 +58,26 @@ public class FundController {
     @RequestMapping(value = "/fund/new/", method = GET)
     @ResponseBody
     public String createAccount(@RequestBody String data) {
+        /* JSON语句处理 */
         data = data.substring(1, data.length()-1).replace("\\", "");
-        FundAccount account = gson.fromJson(data, FundAccount.class);
-        return new CustomResponse(new Result(true),
-                fundAccountService.createAccount(account)).toString();
-        // TODO 失败判断
+        FundAccount account;
+        try {
+            account = gson.fromJson(data, FundAccount.class);
+        } catch(JsonSyntaxException | JsonIOException e) {
+            /* JSON语句格式异常 */
+            return new CustomResponse(new Result(false, "JSON语句出错")).toString();
+        }
+        int id;
+        try {
+            /* 创建新的资金账户, 返回新生成的ID */
+            id = fundAccountService.createAccount(account);
+            return new CustomResponse(new Result(true), id).toString();
+        }  catch(DataAccessException e) {
+            /* 数据库访问异常 */
+            SQLException exception = (SQLException)e.getCause();
+//            logger.error("数据库异常");
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
 
     /**
@@ -126,7 +153,6 @@ public class FundController {
 
     /**
      * 完成交易。
-     * <p>
      * 包括以下操作：
      * <ul>
      *     <li>更新余额</li>
@@ -141,10 +167,18 @@ public class FundController {
     public String transfer(@RequestBody String data) {
         data = data.substring(1, data.length()-1).replace("\\", "");
         TransactionLog log = gson.fromJson(data, TransactionLog.class);
-        fundAccountService.updateBalance(log.getFundId(), log.getChangeAmount());
-        transactionLogService.addLog(log);
-        return new CustomResponse(new Result(true)).toString();
-        // TODO 失败判断
+        try {
+            /* 更新余额 */
+            fundAccountService.updateBalance(log.getFundId(), log.getChangeAmount());
+            /* 新添交易记录 */
+            transactionLogService.addLog(log);
+            return new CustomResponse(new Result(true)).toString();
+        } catch(DataAccessException e) {
+            /* 数据库异常 */
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
 
 }
