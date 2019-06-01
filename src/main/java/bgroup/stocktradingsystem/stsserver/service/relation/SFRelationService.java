@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * SFRelationService提供证券账户和资金账户之间相关联的一系列操作。
  *
  * @deprecated 0.0.1版最初的设计中使用，随后被FundAccountService中的方法取代使用。
  * 包括数据库中表格securities_fund也被取消使用。

@@ -35,6 +35,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 public class SecuritiesController {
+    /* 需要使用到的服务 */
     @Autowired
     SecuritiesAccountService securitiesAccountService;
     @Autowired
@@ -42,22 +43,34 @@ public class SecuritiesController {
     @Autowired
     StockService stockService;
 
+    /* JSON语句转换 */
     private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     /* *********************** Personal Account ****************************** */
 
     /**
-     * @param data 新的个人账户信息
+     * 创建新的个人账户
+     *
+     * @param data 新的个人账户信息 (PersonalAccount)
+     * @see PersonalAccount
      * @return 成功或失败原因 // TODO 返回新建的ID
      */
     @RequestMapping(value = "/securities/new/personal", method = POST)
     @ResponseBody
     public String createPersonalAccount(@RequestBody String data) {
+        /* 接收数据的处理 */
         data = data.substring(1, data.length()-1).replace("\\", "");
         PersonalAccount account = gson.fromJson(data, PersonalAccount.class);
-        securitiesAccountService.createPersonalAccount(account);
-        return new CustomResponse(new Result(true)).toString();
-        // TODO 失败判断
+        try {
+            /* 创建新个人账户 */
+            securitiesAccountService.createPersonalAccount(account);
+            return new CustomResponse(new Result(true)).toString();
+        } catch(DataAccessException e) {
+            /* 数据库错误异常 */
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
 
     /**

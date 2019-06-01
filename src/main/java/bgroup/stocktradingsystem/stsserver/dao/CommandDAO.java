@@ -12,6 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *
+ * @deprecated 通过中央处理模块进行使用。
+ */
 @Repository
 public class CommandDAO implements iCommandDAO {
     @Autowired
