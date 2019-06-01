@@ -30,7 +30,7 @@ public class CorporateAccountDAO implements iCorporateAccountDAO {
 
     @Override
     public void deleteByRN(String id) {
-        jdbcTemplate.update("DELETE FROM corporate_account WHERE register_id = ?", preparedStatement ->
+        jdbcTemplate.update("DELETE FROM corporate_account WHERE register_no = ?", preparedStatement ->
                 preparedStatement.setString(1, id));
     }
 

@@ -32,7 +32,7 @@ public class AdminAccountService {
     }
 
     public void newAccount(AdminAccount account) {
-        adminAccountDAO.insert(account);
+         adminAccountDAO.insert(account);
     }
 
 }

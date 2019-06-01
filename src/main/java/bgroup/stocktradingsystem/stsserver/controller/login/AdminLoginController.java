@@ -8,10 +8,13 @@ import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import bgroup.stocktradingsystem.stsserver.service.account.AdminAccountService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.sql.SQLException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -45,20 +48,24 @@ public class AdminLoginController {
     @ResponseBody
     public String adminLogin(@RequestBody String data, HttpServletRequest request){
         System.out.println(data);
-        if(data.charAt(0)=='[')
-            data = data.substring(1, data.length()-1).replace("\\", "");
-        else
-            data = data.replace("\\", "");
+        data = data.substring(1, data.length()-1).replace("\\", "");
         AdminAccount adminAccount = gson.fromJson(data, AdminAccount.class);
-        AdminAccount localAccount = adminAccountService.fetchAccount(adminAccount.getId());
-        if(localAccount!=null)
+        AdminAccount localAccount;
+        try {
+            localAccount = adminAccountService.fetchAccount(adminAccount.getId());
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+        if(localAccount != null)
             if(localAccount.getPassword().equals(adminAccount.getPassword())) {
                 HttpSession session = request.getSession();
                 if(session.getAttribute("ADMIN_SESSION_ID") != null)
                     return new CustomResponse(new Result(false, "重复登陆")).toString();
                 else
                     session.setAttribute("ADMIN_SESSION_ID", adminAccount.getId());
-                return new CustomResponse(new Result(true, "登陆成功"), localAccount).toString();
+                return new CustomResponse(new Result(true), localAccount).toString();
             } else
                 return new CustomResponse(new Result(false, "密码不正确")).toString();
         else
@@ -77,10 +84,16 @@ public class AdminLoginController {
     public String adminChangePassword(HttpServletRequest request, @PathVariable String newPassword) {
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("ADMIN_SESSION_ID");
-        if(adminAccountService.changePassword(id, newPassword)) {
-            return new CustomResponse(new Result(true)).toString();
-        } else {
-            return new CustomResponse(new Result(false, "账号不存在")).toString();
+        try {
+            if (adminAccountService.changePassword(id, newPassword)) {
+                return new CustomResponse(new Result(true)).toString();
+            } else {
+                return new CustomResponse(new Result(false, "账号不存在")).toString();
+            }
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
         }
     }
 

@@ -29,7 +29,11 @@ public class SecuritiesAccountService {
     }
 
     public PersonalAccount fetchPersonalAccountById(int id) {
-        return personalAccountDAO.select("securities_id = '" + id + "'").get(0);
+        List<PersonalAccount> result = personalAccountDAO.select("securities_id = " + id);
+        if(result.size()!=0)
+            return result.get(0);
+        else
+            return null;
     }
 
     public void deletePersonalAccountById(int id) {
@@ -56,11 +60,15 @@ public class SecuritiesAccountService {
 
     public CorporateAccount fetchCorporateAccountByRN(String registerNo) {
         return corporateAccountDAO
-                .select("register_id = '" + registerNo + "'").get(0);
+                .select("register_no = '" + registerNo + "'").get(0);
     }
 
     public CorporateAccount fetchCorporateAccountById(int id) {
-        return corporateAccountDAO.select("securities_id = '" + id + "'").get(0);
+        List<CorporateAccount> result = corporateAccountDAO.select("securities_id = " + id);
+        if(result.size()!=0)
+            return result.get(0);
+        else
+            return null;
     }
 
     public void deleteCorporateAccountById(int id) {

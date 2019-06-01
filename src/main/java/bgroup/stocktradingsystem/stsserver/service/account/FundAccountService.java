@@ -51,4 +51,12 @@ public class FundAccountService {
         account.setBalance(account.getBalance() + amount);
         fundAccountDAO.update(account);
     }
+
+    public List<Integer> fetchConnectedFundAccount( int securitiesId) {
+        return fundAccountDAO.selectFromPFRelation(securitiesId);
+    }
+
+    public void alterSecuritiesId(int oldId, int newId) {
+        fundAccountDAO.alterSecuritiesId(oldId, newId);
+    }
 }

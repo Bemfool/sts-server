@@ -69,6 +69,21 @@ public class FundAccountDAO implements iFundAccountDAO {
                 (resultSet, rowNum) -> resultSet.getInt("maxid")).get(0);
     }
 
+    public List<Integer> selectFromPFRelation(int securitiesId) {
+        return jdbcTemplate.query("SELECT fund_id FROM personal_account " +
+                "NATURAL JOIN fund_account WHERE securities_id = " + securitiesId,
+                (resultSet, i) -> resultSet.getInt("fund_id"));
+    }
+
+    public void alterSecuritiesId(int oldId, int newId) {
+        jdbcTemplate.update("UPDATE fund_account SET securities_id = ? WHERE securities_id = ?",
+                preparedStatement -> {
+            preparedStatement.setInt(1,newId );
+            preparedStatement.setInt(2,oldId);
+                });
+    }
+
+
     class FundAccountMapper implements RowMapper<FundAccount> {
         @Override
         public FundAccount mapRow(ResultSet resultSet, int rowNum) throws SQLException {

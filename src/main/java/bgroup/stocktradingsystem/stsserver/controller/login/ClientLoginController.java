@@ -6,6 +6,7 @@ import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.sql.SQLException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -45,9 +48,15 @@ public class ClientLoginController {
     public String clientLogin(@RequestBody String data, HttpServletRequest request){
         data = data.substring(1, data.length()-1).replace("\\", "");
         FundAccount fundAccount = gson.fromJson(data, FundAccount.class);
-
-        FundAccount localAccount = fundAccountService.fetchAccount(fundAccount.getFundId());
-        if(localAccount!=null) {
+        FundAccount localAccount = null;
+        try {
+            localAccount = fundAccountService.fetchAccount(fundAccount.getFundId());
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+        if(localAccount != null) {
             if(localAccount.getPassword().equals(fundAccount.getPassword())) {
                 HttpSession session = request.getSession();
                 if(session.getAttribute("CLIENT_SESSION_ID") != null) {
@@ -55,7 +64,7 @@ public class ClientLoginController {
                 } else {
                     session.setAttribute("CLIENT_SESSION_ID", fundAccount.getFundId());
                 }
-                return new CustomResponse(new Result(true, "登陆成功"), localAccount).toString();
+                return new CustomResponse(new Result(true), localAccount).toString();
             } else {
                 return new CustomResponse(new Result(false, "密码不正确")).toString();
             }

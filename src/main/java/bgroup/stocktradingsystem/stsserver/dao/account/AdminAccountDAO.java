@@ -4,6 +4,7 @@ import java.sql.*;
 import bgroup.stocktradingsystem.stsserver.domain.account.AdminAccount;
 import bgroup.stocktradingsystem.stsserver.impl.idao.account.iAdminAccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,9 +18,8 @@ public class AdminAccountDAO implements iAdminAccountDAO {
 
     @Override
     public void insert(AdminAccount account) {
-        jdbcTemplate.update("INSERT INTO admin_account(id, name, password, priv) VALUES(?, ?, ?, ?)",
-                account.getId(), account.getName(), account.getPassword(), account.getPriv());
-
+            jdbcTemplate.update("INSERT INTO admin_account(id, name, password, priv) VALUES(?, ?, ?, ?)",
+                    account.getId(), account.getName(), account.getPassword(), account.getPriv());
     }
 
     @Override

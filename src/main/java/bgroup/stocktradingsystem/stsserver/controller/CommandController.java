@@ -3,9 +3,7 @@ package bgroup.stocktradingsystem.stsserver.controller;
 import bgroup.stocktradingsystem.stsserver.domain.Command;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
-import bgroup.stocktradingsystem.stsserver.service.CommandService;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+/**
+ * CommandController用于客户端发送买卖指令的控制。
+ * 需要将从客户端发送过来的指令转发给中央处理系统。
+ * 包括以下操作：
+ * <ul>
+ *     <li>上传指令</li>
+ *     <li>撤销指令</li>
+ * </ul>
+ *
+ * @version 0.0.1
+ */
 @RestController
 public class CommandController {
 

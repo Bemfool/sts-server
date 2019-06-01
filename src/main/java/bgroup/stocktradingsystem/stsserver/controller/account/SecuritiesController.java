@@ -7,23 +7,38 @@ import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import bgroup.stocktradingsystem.stsserver.service.StockService;
 import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import bgroup.stocktradingsystem.stsserver.service.account.SecuritiesAccountService;
-import bgroup.stocktradingsystem.stsserver.service.relation.SFRelationService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+/**
+ * SecuritiesController用于证券账户的控制。
+ * 包括以下操作：
+ * <ul>
+ *     <li>创建新个人/法人证券账户</li>
+ *     <li>获取指定ID的个人/法人证券账户</li>
+ *     <li>替换个人/法人证券账户新ID</li>
+ *     <li>删除个人/法人证券账户</li>
+ *     <li>设置个人/法人证券账户状态</li>
+ *     <li>获取相关联的资金账户</li>
+ *     <li>获取相关联的股票列表</li>
+ * </ul>
+ *
+ * @version 0.01
+ */
 @RestController
 public class SecuritiesController {
     @Autowired
     SecuritiesAccountService securitiesAccountService;
     @Autowired
     FundAccountService fundAccountService;
-    @Autowired
-    SFRelationService sfRelationService;
     @Autowired
     StockService stockService;
 
@@ -59,6 +74,8 @@ public class SecuritiesController {
     }
 
     /**
+     * 用新的个人证券账户号替换旧的个人证券账户号
+     *
      * @param oldSecuritiesId 待替换的证券账户号
      * @param newSecuritiesId 新的证券账户号
      * @return 成功或失败原因
@@ -68,18 +85,33 @@ public class SecuritiesController {
     @ResponseBody
     public String alterPersonalAccount(@PathVariable String oldSecuritiesId,
                                        @PathVariable String newSecuritiesId) {
-        PersonalAccount account = securitiesAccountService
-                .fetchPersonalAccountById(Integer.valueOf(oldSecuritiesId));
-        securitiesAccountService.deletePersonalAccountById(Integer.valueOf(oldSecuritiesId));
-        account.setSecuritiesId(Integer.valueOf(newSecuritiesId));
-        securitiesAccountService.createPersonalAccount(account);
-        sfRelationService.alterSecuritiesId(Integer.valueOf(oldSecuritiesId),
-                Integer.valueOf(newSecuritiesId));
-        return new CustomResponse(new Result(true)).toString();
-        // TODO 失败判断
+        try {
+            /* 获取旧的个人证券账户 */
+            PersonalAccount account = securitiesAccountService
+                    .fetchPersonalAccountById(Integer.valueOf(oldSecuritiesId));
+            if(account == null)
+                return new CustomResponse(new Result(false,
+                        "不存在ID为" + oldSecuritiesId + "的个人证券账户")).toString();
+            /* 删除旧的个人证券账户 */
+            securitiesAccountService.deletePersonalAccountById(Integer.valueOf(oldSecuritiesId));
+            /* 将旧的个人证券账户号更换成新的证券账户号 */
+            account.setSecuritiesId(Integer.valueOf(newSecuritiesId));
+            /* 创建一个新的证券账户号 */
+            securitiesAccountService.createPersonalAccount(account);
+            /* 更新相关联的资金账户信息 */
+            fundAccountService.alterSecuritiesId(Integer.valueOf(oldSecuritiesId), Integer.valueOf(newSecuritiesId));
+            return new CustomResponse(new Result(true)).toString();
+        }catch(DataAccessException e) {
+            /* 捕捉数据库异常 */
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
 
     /**
+     * 删除个人账户
+     *
      * @param idNo 个人账户身份证
      * @return 成功或失败原因
      */
@@ -149,11 +181,13 @@ public class SecuritiesController {
                                        @PathVariable String newSecuritiesId) {
         CorporateAccount account = securitiesAccountService
                 .fetchCorporateAccountById(Integer.valueOf(oldSecuritiesId));
+        if(account == null)
+            return new CustomResponse(new Result(false,
+                    "不存在ID为" + oldSecuritiesId + "的个人证券账户")).toString();
         securitiesAccountService.deleteCorporateAccountById(Integer.valueOf(oldSecuritiesId));
         account.setSecuritiesId(Integer.valueOf(newSecuritiesId));
         securitiesAccountService.createCorporateAccount(account);
-        sfRelationService.alterSecuritiesId(Integer.valueOf(oldSecuritiesId),
-                Integer.valueOf(newSecuritiesId));
+        fundAccountService.alterSecuritiesId(Integer.valueOf(oldSecuritiesId), Integer.valueOf(newSecuritiesId));
         return new CustomResponse(new Result(true)).toString();
         // TODO 失败判断
     }
@@ -197,7 +231,7 @@ public class SecuritiesController {
     @ResponseBody
     public String fetchConnectedFund(@PathVariable String securitiesId) {
         return new CustomResponse(new Result(true),
-                sfRelationService.selectRelationWithSecurities(Integer.valueOf(securitiesId)))
+                fundAccountService.fetchConnectedFundAccount(Integer.valueOf(securitiesId)))
                 .toString();
         // TODO 失败判断
     }

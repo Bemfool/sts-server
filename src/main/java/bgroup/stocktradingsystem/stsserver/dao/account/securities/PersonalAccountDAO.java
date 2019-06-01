@@ -125,6 +125,9 @@ public class PersonalAccountDAO implements iPersonalAccountDAO {
     }
 
     /**
+     * 个人账户的PrepareStatement对应函数。
+     * 无现实意义，用于简化代码。
+     *
      * @param account 个人账户
      * @param preparedStatement 预语句
      * @throws SQLException 数据库异常
