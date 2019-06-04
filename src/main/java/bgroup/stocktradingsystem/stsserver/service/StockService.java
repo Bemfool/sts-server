@@ -16,8 +16,8 @@ public class StockService {
         return stockDAO.select("");
     }
 
-    public Stock fetchCertainStock(String code) {
-        return stockDAO.select("stock_code = '" + code + "'").get(0);
+    public List<Stock> fetchCertainStock(String cond) {
+        return stockDAO.select(cond);
     }
 
     public void updateStock(Stock stock) {

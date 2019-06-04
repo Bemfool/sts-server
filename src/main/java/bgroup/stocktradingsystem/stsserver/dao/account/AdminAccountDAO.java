@@ -30,7 +30,7 @@ public class AdminAccountDAO implements iAdminAccountDAO {
 
     @Override
     public void update(AdminAccount account) {
-        jdbcTemplate.update("UPDATE admin_account SET name = ?, password = ?, priv = ?" +
+        jdbcTemplate.update("UPDATE admin_account SET name = ?, password = ?, priv = ? " +
                         "WHERE id = ?",
                 preparedStatement -> {
             preparedStatement.setString(1, account.getName());

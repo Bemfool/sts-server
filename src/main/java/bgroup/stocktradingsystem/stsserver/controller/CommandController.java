@@ -3,12 +3,19 @@ package bgroup.stocktradingsystem.stsserver.controller;
 import bgroup.stocktradingsystem.stsserver.domain.Command;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
+import bgroup.stocktradingsystem.stsserver.service.CommandService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import bgroup.stocktradingsystem.stsserver.socketutils.SocketCommon;
 
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -24,16 +31,25 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 public class CommandController {
+    @Autowired
+    CommandService commandService;
 
-    Gson gson = new Gson();
+    /* JSON语句转换 */
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+
 
     @RequestMapping(value = "/command/upload", method = POST)
     @ResponseBody
     public String uploadCommand(@RequestBody String data) {
         data = data.substring(1, data.length()-1).replace("\\", "");
         Command command = gson.fromJson(data, Command.class);
-        // TODO 传输给中央交易系统
-        return new CustomResponse(new Result(true)).toString();
+        String reply = SocketCommon.doSocket(
+                command.isCommandType() + "," +
+                command.getFundId() + "," +
+                command.getStockCode() + "," +
+                command.getStockCount() + "," +
+                command.getStockPrice() + "," + command.getTime());
+        return new CustomResponse(new Result(true), reply).toString();
     }
 
     @RequestMapping(value = "/command/revoke", method = POST)
@@ -41,7 +57,38 @@ public class CommandController {
     public String revokeCommand(@RequestBody String data) {
         data = data.substring(1, data.length()-1).replace("\\", "");
         Command command = gson.fromJson(data, Command.class);
-        // TODO 传输给中央交易系统
-        return new CustomResponse(new Result(true)).toString();
+        String reply = SocketCommon.doSocket(
+                command.isCommandType() + "," +
+                        command.getFundId() + "," +
+                        command.getStockCode() + "," + command.getTime());
+        return new CustomResponse(new Result(true), reply).toString();
+
+    }
+
+    @RequestMapping(value = "/command/in", method = POST)
+    @ResponseBody
+    public String fetchCertainInCmd(@RequestBody String data) {
+        System.out.println(data);
+        data = data.substring(1, data.length()-1).replace("\\", "");
+        String stockCode = gson.fromJson(data, String.class);
+        System.out.println("stock code: " + stockCode);
+        List<Command> cmds = commandService.fetchCertainInCmd("stock_code = '" + stockCode + "'");
+        if(cmds != null)
+            return new CustomResponse(new Result(true), cmds).toString();
+        else
+            return new CustomResponse(new Result(false, "获取买指令失败")).toString();
+    }
+
+    @RequestMapping(value = "/command/out", method = POST)
+    @ResponseBody
+    public String fetchCertainOutCmd(@RequestBody String data) {
+        data = data.substring(1, data.length()-1).replace("\\", "");
+        String stockCode = gson.fromJson(data, String.class);
+        System.out.println("stock code: " + stockCode);
+        List<Command> cmds = commandService.fetchCertainOutCmd("stock_code = '" + stockCode + "'");
+        if(cmds != null)
+            return new CustomResponse(new Result(true), cmds).toString();
+        else
+            return new CustomResponse(new Result(false, "获取卖指令失败")).toString();
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  *
- * @deprecated 通过中央处理模块进行使用。
+ *
  */
 @Repository
 public class CommandDAO implements iCommandDAO {
@@ -24,26 +24,23 @@ public class CommandDAO implements iCommandDAO {
     @Override
     public void insert(Command command) {
         jdbcTemplate.update("INSERT INTO command" +
-                "(time, fund_id, command_type, stock_code, stock_count)" +
-                "VALUES(?, ?, ?, ?, ?)", preparedStatement -> {
+                "(time, fund_id, command_type, stock_code, stock_count, stock_price)" +
+                "VALUES(?, ?, ?, ?, ?, ?)", preparedStatement -> {
             preparedStatement.setDate(1, command.getTime());
             preparedStatement.setInt(2, command.getFundId());
             preparedStatement.setBoolean(3, command.isCommandType());
             preparedStatement.setString(4, command.getStockCode());
             preparedStatement.setInt(5, command.getStockCount());
+            preparedStatement.setDouble(6, command.getStockPrice());
         });
     }
 
     @Override
     public void delete(Command command) {
         jdbcTemplate.update("DELETE FROM command WHERE fund_id = ? " +
-                        "AND command_type = ? " +
-                        "AND stock_code = ?" +
-                        "AND stock_count = ?", preparedStatement -> {
+                        "AND time = ? " , preparedStatement -> {
                 preparedStatement.setInt(1, command.getFundId());
-                preparedStatement.setBoolean(2, command.isCommandType());
-                preparedStatement.setString(3, command.getStockCode());
-                preparedStatement.setInt(4, command.getStockCount());
+                preparedStatement.setDate(2, command.getTime());
                 });
     }
 
@@ -68,6 +65,7 @@ public class CommandDAO implements iCommandDAO {
             command.setCommandType(resultSet.getBoolean("command_type"));
             command.setStockCode(resultSet.getString("stock_code"));
             command.setStockCount(resultSet.getInt("stock_count"));
+            command.setStockPrice(resultSet.getDouble("stock_price"));
             return command;
         }
     }

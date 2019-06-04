@@ -7,9 +7,11 @@ import bgroup.stocktradingsystem.stsserver.service.StockService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +26,26 @@ public class StockController {
     private Gson gson = new Gson();
 
     /**
+     * 获取所有股票信息
+     *
      * @return 所有股票信息或失败原因
      */
     @RequestMapping(value = "/stock/all", method = GET)
     @ResponseBody
     public String fetchAllStock() {
-        return new CustomResponse(new Result(true),
-                stockService.fetchAllStock()).toString();
-        // TODO 失败判断
+        try {
+            return new CustomResponse(new Result(true),
+                    stockService.fetchAllStock()).toString();
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
 
     /**
+     * 指定股票代码获取单只股票信息
+     *
      * @param data 指定股票代码
      * @return 指定股票代码的股票或失败原因
      */
@@ -43,10 +54,35 @@ public class StockController {
     public String fetchOneStock(@RequestBody String data) {
         data = data.substring(1, data.length()-1).replace("\\", "");
         String code = gson.fromJson(data, String.class);
-        return new CustomResponse(new Result(true),
-                stockService.fetchCertainStock(code)).toString();
-        // TODO 失败判断
+        try {
+            return new CustomResponse(new Result(true),
+                    stockService.fetchCertainStock("stock_code = '" + code + "'").get(0)).toString();
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
+
+    /**
+     * 指定
+     *
+     * @param priv
+     * @return
+     */
+    @RequestMapping(value = "/stock/{priv}", method = GET)
+    @ResponseBody
+    public String fetchStockUnderPriv(@PathVariable String priv) {
+        try {
+            return new CustomResponse(new Result(true),
+                    stockService.fetchCertainStock("stock_priv <= " + priv)).toString();
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+    }
+
 
     /**
      * @param data 新的股票信息
