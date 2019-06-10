@@ -39,8 +39,8 @@ public class JdbcTests {
 
     @Test
     public void selectFirstStockCode() {
-        List<Stock> list = stockService.fetchAllStock();
-        System.out.println(list.get(0).getStockCode());
+//        List<Stock> list = stockService.fetchAllStock();
+//        System.out.println(list.get(0).getStockCode());
     }
 
     /**
@@ -49,13 +49,13 @@ public class JdbcTests {
      */
     @Test
     public void insertNewAdmin() {
-        AdminAccount adminAccount = new AdminAccount("12345678", "许三多", "000000");
-        try {
-            adminAccountService.newAccount(adminAccount);
-        } catch(DataAccessException e) {
-            SQLException exception = (SQLException)e.getCause();
-            System.out.println(exception.toString());
-        }
+//        AdminAccount adminAccount = new AdminAccount("12345678", "许三多", "000000");
+//        try {
+//            adminAccountService.newAccount(adminAccount);
+//        } catch(DataAccessException e) {
+//            SQLException exception = (SQLException)e.getCause();
+//            System.out.println(exception.toString());
+//        }
 
     }
 

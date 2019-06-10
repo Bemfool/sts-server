@@ -4,77 +4,41 @@ public class Stock {
     private String stockCode;
     private String stockName;
     private Double stockPrice;
-    private Double ceilingPrice;
-    private Double floorPrice;
     private String stockState;
-    private String stockLimit;
-    private String stockChange;
+    private Double stockLimit;
+    private Double closingPrice;
+    private Integer stockAmount;
+    private Double stockTotal;
 
-    public Stock() {
+    public Stock() {}
+
+    public void setStockCode(String stockCode) { this.stockCode = stockCode; }
+    public void setStockName(String stockName) { this.stockName = stockName; }
+    public void setStockPrice(Double stockPrice) { this.stockPrice = stockPrice; }
+    public void setStockState(String stockState) { this.stockState = stockState; }
+    public void setClosingPrice(Double closingPrice) {
+        this.closingPrice = closingPrice;
     }
-
-    public void setStockCode(String stockCode) {
-        this.stockCode = stockCode;
+    public void setStockAmount(Integer stockAmount) {
+        this.stockAmount = stockAmount;
     }
-
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-
-    public void setCeilingPrice(Double ceilingPrice) {
-        this.ceilingPrice = ceilingPrice;
-    }
-
-    public void setFloorPrice(Double floorPrice) {
-        this.floorPrice = floorPrice;
-    }
-
-    public void setStockPrice(Double stockPrice) {
-        this.stockPrice = stockPrice;
-    }
-
-    public void setStockState(String stockState) {
-        this.stockState = stockState;
-    }
-
-    public void setStockChange(String stockChange) {
-        this.stockChange = stockChange;
-    }
-
-    public void setStockLimit(String stockLimit) {
+    public void setStockLimit(Double stockLimit) {
         this.stockLimit = stockLimit;
     }
-
-    public String getStockCode() {
-        return stockCode;
+    public void setStockTotal(Double stockTotal) {
+        this.stockTotal = stockTotal;
     }
 
-    public Double getCeilingPrice() {
-        return ceilingPrice;
+    public String getStockCode() { return stockCode; }
+    public Double getStockPrice() { return stockPrice; }
+    public Double getStockLimit() { return stockLimit; }
+    public String getStockName() { return stockName; }
+    public String getStockState() { return stockState; }
+    public Double getClosingPrice() { return closingPrice; }
+    public Double getStockTotal() {
+        return stockTotal;
     }
-
-    public Double getStockPrice() {
-        return stockPrice;
-    }
-
-    public Double getFloorPrice() {
-        return floorPrice;
-    }
-
-    public String getStockChange() {
-        return stockChange;
-    }
-
-    public String getStockLimit() {
-        return stockLimit;
-    }
-
-    public String getStockName() {
-        return stockName;
-    }
-
-    public String getStockState() {
-        return stockState;
+    public Integer getStockAmount() {
+        return stockAmount;
     }
 }
-

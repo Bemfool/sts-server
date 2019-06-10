@@ -32,9 +32,8 @@ public class FundAccountDAO implements iFundAccountDAO {
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM fund_account WHERE fund_id = ?", preparedStatement -> {
-            preparedStatement.setInt(1, id);
-        });
+        jdbcTemplate.update("DELETE FROM fund_account WHERE fund_id = ?",
+                preparedStatement -> preparedStatement.setInt(1, id));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class FundAccountDAO implements iFundAccountDAO {
                 "password = ?," +
                 "balance = ?," +
                 "interest = ?," +
-                "state = ? WHERE id = ?", preparedStatement -> {
+                "state = ? WHERE fund_id = ?", preparedStatement -> {
             preparedStatement.setInt(1,account.getSecuritiesId());
             preparedStatement.setString(2, account.getPassword());
             preparedStatement.setDouble(3, account.getBalance());
@@ -65,7 +64,7 @@ public class FundAccountDAO implements iFundAccountDAO {
 
     @Override
     public int maxId() {
-        return jdbcTemplate.query("SELECT MAX(fund_id) maxid",
+        return jdbcTemplate.query("SELECT MAX(fund_id) maxid FROM fund_account",
                 (resultSet, rowNum) -> resultSet.getInt("maxid")).get(0);
     }
 
@@ -87,6 +86,11 @@ public class FundAccountDAO implements iFundAccountDAO {
             preparedStatement.setInt(1,newId );
             preparedStatement.setInt(2,oldId);
                 });
+    }
+
+    public double getRate() {
+        return jdbcTemplate.query("SELECT * FROM interest_rate",
+                (resultSet, i) -> resultSet.getDouble("rate")).get(0);
     }
 
 

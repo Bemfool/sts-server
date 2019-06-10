@@ -55,9 +55,10 @@ public class FundController {
      * @param data 待新建的资金账户
      * @return 成功或失败原因
      */
-    @RequestMapping(value = "/fund/new/", method = GET)
+    @RequestMapping(value = "/fund/new", method = POST)
     @ResponseBody
     public String createAccount(@RequestBody String data) {
+        System.out.println("创建新用户: " + data);
         /* JSON语句处理 */
         data = data.substring(1, data.length()-1).replace("\\", "");
         FundAccount account;
@@ -179,6 +180,24 @@ public class FundController {
             System.out.println(exception.toString());
             return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
         }
+    }
+
+    @RequestMapping(value = "/fund/settle_interest", method = POST)
+    @ResponseBody
+    public String settleInterest() {
+        boolean result;
+        try {
+            result = fundAccountService.settleInterest();
+        } catch(DataAccessException e) {
+            /* 数据库异常 */
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+        if(result)
+            return new CustomResponse(new Result(true)).toString();
+        else
+            return new CustomResponse(new Result(false, "不存在该账户")).toString();
     }
 
 }

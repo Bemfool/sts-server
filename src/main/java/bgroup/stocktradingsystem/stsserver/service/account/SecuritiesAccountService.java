@@ -25,7 +25,11 @@ public class SecuritiesAccountService {
     }
 
     public PersonalAccount fetchPersonalAccountByIN(String idNo) {
-        return personalAccountDAO.select("id_no = '" + idNo + "'").get(0);
+        List<PersonalAccount> list = personalAccountDAO.select("id_no = '" + idNo + "'");
+        if(list.isEmpty())
+            return null;
+        else
+          return list.get(0);
     }
 
     public PersonalAccount fetchPersonalAccountById(int id) {
@@ -59,8 +63,11 @@ public class SecuritiesAccountService {
     }
 
     public CorporateAccount fetchCorporateAccountByRN(String registerNo) {
-        return corporateAccountDAO
-                .select("register_no = '" + registerNo + "'").get(0);
+        List<CorporateAccount> list = corporateAccountDAO.select("register_no = '" + registerNo + "'");
+        if(list.isEmpty())
+            return null;
+        else
+            return list.get(0);
     }
 
     public CorporateAccount fetchCorporateAccountById(int id) {

@@ -9,8 +9,12 @@ import java.util.List;
 
 @Service
 public class StockService {
+    private final StockDAO stockDAO;
+
     @Autowired
-    StockDAO stockDAO;
+    public StockService(StockDAO stockDAO) {
+        this.stockDAO = stockDAO;
+    }
 
     public List<Stock> fetchAllStock() {
         return stockDAO.select("");

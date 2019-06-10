@@ -32,10 +32,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 public class AdminLoginController {
-    @Autowired
-    AdminAccountService adminAccountService;
+    private final AdminAccountService adminAccountService;
 
     private Gson gson = new Gson();
+
+    @Autowired
+    public AdminLoginController(AdminAccountService adminAccountService) {
+        this.adminAccountService = adminAccountService;
+    }
 
     /**
      * 管理员登陆。

@@ -31,10 +31,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 public class ClientLoginController {
-    @Autowired
-    FundAccountService fundAccountService;
+    final private FundAccountService fundAccountService;
 
     private Gson gson = new Gson();
+
+    @Autowired
+    public ClientLoginController(FundAccountService fundAccountService) {
+        this.fundAccountService = fundAccountService;
+    }
 
     /**
      * 用户登陆判断。
@@ -48,7 +52,7 @@ public class ClientLoginController {
     public String clientLogin(@RequestBody String data, HttpServletRequest request){
         data = data.substring(1, data.length()-1).replace("\\", "");
         FundAccount fundAccount = gson.fromJson(data, FundAccount.class);
-        FundAccount localAccount = null;
+        FundAccount localAccount;
         try {
             localAccount = fundAccountService.fetchAccount(fundAccount.getFundId());
         } catch(DataAccessException e) {
@@ -59,11 +63,13 @@ public class ClientLoginController {
         if(localAccount != null) {
             if(localAccount.getPassword().equals(fundAccount.getPassword())) {
                 HttpSession session = request.getSession();
-                if(session.getAttribute("CLIENT_SESSION_ID") != null) {
-                    return new CustomResponse(new Result(false, "重复登陆")).toString();
-                } else {
-                    session.setAttribute("CLIENT_SESSION_ID", fundAccount.getFundId());
-                }
+                //TODO 暂时注释
+//                if(session.getAttribute("CLIENT_SESSION_ID") != null) {
+//                    return new CustomResponse(new Result(false, "重复登陆")).toString();
+//                } else {
+//                    session.setAttribute("CLIENT_SESSION_ID", fundAccount.getFundId());
+//                }
+                session.setAttribute("CLIENT_SESSION_ID", fundAccount.getFundId());
                 return new CustomResponse(new Result(true), localAccount).toString();
             } else {
                 return new CustomResponse(new Result(false, "密码不正确")).toString();

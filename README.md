@@ -54,7 +54,7 @@
     - false + 原因
   - 内容：List<Stock>
 
-`stock/one` 获取单只股票信息【GET】
+`/stock/one` 获取单只股票信息【GET】
 
 - 传入：stock_code
 - 传出：
@@ -62,6 +62,15 @@
     - true
     - false + 原因
   - 内容：Stock
+
+`/stock/{priv}` 获取权限以下的股票【GET】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List<Stock>
 
 `/stock/update`更新股票数据【POST】
 
@@ -359,7 +368,7 @@
 
 #### 指令操作
 
-`command/upload`  上传买/卖指令，同时更新用户余额或股票库存【POST】【暂时不可测试】
+`command/upload`  上传买/卖指令，同时更新用户余额或股票库存【POST】
 
 - 传入：Command
 - 传出：
@@ -368,7 +377,7 @@
     - false + 原因
   - 内容：null
 
-`command/revoke` 撤销买/卖指令，同时同时更新用户余额或股票库存【POST】【暂时不可测试】
+`command/revoke` 撤销买/卖指令，同时同时更新用户余额或股票库存【POST】
 
 - 传入：Command
 - 传出：
@@ -377,7 +386,23 @@
     - false + 原因
   - 内容：null
 
+`command/in` 获取指定stock_code的买指令【POST】
 
+- 传入：String code
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
+
+`command/out` 获取指定stock_code的卖指令【POST】
+
+- 传入：String code
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：null
 
 ## TODO
 

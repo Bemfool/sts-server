@@ -4,6 +4,7 @@ import bgroup.stocktradingsystem.stsserver.domain.Command;
 import bgroup.stocktradingsystem.stsserver.domain.response.CustomResponse;
 import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import bgroup.stocktradingsystem.stsserver.service.CommandService;
+import bgroup.stocktradingsystem.stsserver.socketutils.SocketCommon;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import bgroup.stocktradingsystem.stsserver.socketutils.SocketCommon;
 
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -31,11 +30,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 public class CommandController {
-    @Autowired
-    CommandService commandService;
+    final private CommandService commandService;
 
     /* JSON语句转换 */
     private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+
+    @Autowired
+    public CommandController(CommandService commandService) {
+        this.commandService = commandService;
+    }
 
 
     @RequestMapping(value = "/command/upload", method = POST)

@@ -20,10 +20,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class StockController {
-    @Autowired
-    StockService stockService;
+    private final StockService stockService;
 
     private Gson gson = new Gson();
+
+    @Autowired
+    public StockController(StockService stockService) {
+        this.stockService = stockService;
+    }
 
     /**
      * 获取所有股票信息
@@ -49,7 +53,7 @@ public class StockController {
      * @param data 指定股票代码
      * @return 指定股票代码的股票或失败原因
      */
-    @RequestMapping(value = "/stock/one", method = GET)
+    @RequestMapping(value = "/stock/one", method = POST)
     @ResponseBody
     public String fetchOneStock(@RequestBody String data) {
         data = data.substring(1, data.length()-1).replace("\\", "");
@@ -65,10 +69,10 @@ public class StockController {
     }
 
     /**
-     * 指定
+     * 指定权限返回权限以下的股票
      *
-     * @param priv
-     * @return
+     * @param priv 指定权限
+     * @return 权限以下的一系列股票
      */
     @RequestMapping(value = "/stock/{priv}", method = GET)
     @ResponseBody
@@ -156,19 +160,8 @@ public class StockController {
         data = data.substring(1, data.length()-1).replace("\\", "");
         Type listType = new TypeToken<ArrayList<Stock>>(){}.getType();
         List<Stock> stocks = new Gson().fromJson(data, listType);
-        if(newLimit.equals("-1"))
-            for (Stock stock : stocks) {
-                stock.setCeilingPrice(-1.0);
-                stock.setFloorPrice(-1.0);
-            }
-        else
-            for (Stock stock : stocks) {
-                stock.setCeilingPrice((1.0 + Double.valueOf(newLimit) * 0.01)*stock.getStockPrice());
-                stock.setFloorPrice((1.0 - Double.valueOf(newLimit) * 0.01)*stock.getStockPrice());
-                System.out.println(newLimit);
-                System.out.println(stock.getFloorPrice());
-                System.out.println(stock.getCeilingPrice());
-            }
+        for (Stock stock : stocks)
+            stock.setStockLimit(Double.valueOf(newLimit));
         stockService.updateStockList(stocks);
         return new CustomResponse(new Result(true)).toString();
         // TODO 失败判断

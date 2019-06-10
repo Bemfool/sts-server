@@ -6,15 +6,15 @@ import java.net.Socket;
 public class SocketCommon {
     //创建Socket对象
     private static Socket socket;
-    static {
-        try {
-            String HOST = "localhost";
-            int PORT = 8888;
-            socket = new Socket(HOST, PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            String HOST = "localhost";
+//            int PORT = 8888;
+//            socket = new Socket(HOST, PORT);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public SocketCommon() {}
 

@@ -7,12 +7,14 @@ import bgroup.stocktradingsystem.stsserver.service.IndexService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +23,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class IndexController {
-    @Autowired
-    IndexService indexService;
+    private final IndexService indexService;
 
     private Gson gson = new Gson();
+
+    @Autowired
+    public IndexController(IndexService indexService) {
+        this.indexService = indexService;
+    }
 
     /**
      * 获取所有指数
@@ -40,17 +46,27 @@ public class IndexController {
     }
 
     /**
+     * 指定指数代码返回指定指数
+     *
      * @param data 指定指数代码
      * @return 指定代码的单只指数信息
      */
-    @RequestMapping(value = "/index/one", method = GET)
+    @RequestMapping(value = "/index/one", method = POST)
     @ResponseBody
     public String fetchOneIndex(@RequestBody String data) {
         data = data.substring(1, data.length()-1).replace("\\", "");
         String code = gson.fromJson(data, String.class);
-        return new CustomResponse(new Result(true),
-                indexService.fetchCertainIndex(code)).toString();
-        // TODO 失败判断
+        try {
+            Index index = indexService.fetchCertainIndex(code);
+            if (index != null)
+                return new CustomResponse(new Result(true), index).toString();
+            else
+                return new CustomResponse(new Result(false, "不存在该指数")).toString();
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
     }
 
 

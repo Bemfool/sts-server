@@ -36,15 +36,21 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class SecuritiesController {
     /* 需要使用到的服务 */
-    @Autowired
-    SecuritiesAccountService securitiesAccountService;
-    @Autowired
-    FundAccountService fundAccountService;
-    @Autowired
-    StockService stockService;
+    final private SecuritiesAccountService securitiesAccountService;
+    final private FundAccountService fundAccountService;
+    final private StockService stockService;
 
     /* JSON语句转换 */
     private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+
+    @Autowired
+    public SecuritiesController(SecuritiesAccountService securitiesAccountService,
+                                FundAccountService fundAccountService,
+                                StockService stockService) {
+        this.securitiesAccountService = securitiesAccountService;
+        this.fundAccountService = fundAccountService;
+        this.stockService = stockService;
+    }
 
     /* *********************** Personal Account ****************************** */
 
@@ -80,10 +86,19 @@ public class SecuritiesController {
     @RequestMapping(value = "/securities/personal/{idNo}", method = GET)
     @ResponseBody
     public String fetchPersonalAccount(@PathVariable String idNo) {
-        return new CustomResponse(new Result(true),
-                securitiesAccountService.fetchPersonalAccountByIN(idNo))
-                .toString();
-        // TODO 失败判断
+        System.out.println("获取个人账户ID: " + idNo);
+        PersonalAccount account;
+        try {
+            account = securitiesAccountService.fetchPersonalAccountByIN(idNo);
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+        if(account != null)
+            return new CustomResponse(new Result(true), account).toString();
+        else
+            return new CustomResponse(new Result(false, "找不到该账户")).toString();
     }
 
     /**
@@ -176,10 +191,19 @@ public class SecuritiesController {
     @RequestMapping(value = "/securities/corporate/{registerNo}", method = GET)
     @ResponseBody
     public String fetchCorporateAccount(@PathVariable String registerNo) {
-        return new CustomResponse(new Result(true),
-                securitiesAccountService.fetchCorporateAccountByRN(registerNo))
-                .toString();
-        // TODO 失败判断
+        System.out.println("获取法人账户ID:" + registerNo);
+        CorporateAccount account;
+        try {
+            account = securitiesAccountService.fetchCorporateAccountByRN(registerNo);
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+        if(account != null)
+            return new CustomResponse(new Result(true), account).toString();
+        else
+            return new CustomResponse(new Result(false, "不存在该法人账户")).toString();
     }
 
     /**
