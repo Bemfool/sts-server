@@ -87,6 +87,31 @@ public class StockController {
         }
     }
 
+    @RequestMapping(value = "/stock/{priv}/like", method = POST)
+    @ResponseBody
+    public String fetchStockUnderPrivAndLike(@RequestBody String data, @PathVariable String priv) {
+        data = data.substring(1, data.length()-1).replace("\\", "");
+        String like = gson.fromJson(data, String.class);
+        like = processLike(like);
+        try {
+            return new CustomResponse(new Result(true),
+                    stockService.fetchCertainStock("stock_priv <= " + priv + " AND " +
+                            "(stock_code LIKE '" + like + "' OR " +
+                            "stock_name LIKE '" + like + "')")).toString();
+        } catch(DataAccessException e) {
+            SQLException exception = (SQLException)e.getCause();
+            System.out.println(exception.toString());
+            return new CustomResponse(new Result(false, "数据库异常: " + exception.toString())).toString();
+        }
+    }
+
+    private String processLike(String like) {
+        StringBuilder result = new StringBuilder("%" + like.charAt(0));
+        for(int i=1; i<like.length(); i++)
+            result.append("%").append(like.charAt(i));
+        return result.append("%").toString();
+    }
+
 
     /**
      * @param data 新的股票信息
@@ -160,8 +185,12 @@ public class StockController {
         data = data.substring(1, data.length()-1).replace("\\", "");
         Type listType = new TypeToken<ArrayList<Stock>>(){}.getType();
         List<Stock> stocks = new Gson().fromJson(data, listType);
-        for (Stock stock : stocks)
-            stock.setStockLimit(Double.valueOf(newLimit));
+        for (Stock stock : stocks) {
+            if(newLimit.equals("-1"))
+                stock.setStockLimit(-1.0);
+            else
+                stock.setStockLimit(Double.valueOf(newLimit) / 100.0);
+        }
         stockService.updateStockList(stocks);
         return new CustomResponse(new Result(true)).toString();
         // TODO 失败判断
