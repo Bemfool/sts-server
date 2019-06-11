@@ -16,6 +16,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -38,13 +39,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class FundController {
     /* 需要使用到的服务 */
-    @Autowired
-    FundAccountService fundAccountService;
-    @Autowired
-    TransactionLogService transactionLogService;
+    final private FundAccountService fundAccountService;
+    final private TransactionLogService transactionLogService;
 
     /* JSON语句处理 */
     private Gson gson = new Gson();
+
+    @Autowired
+    public FundController(FundAccountService fundAccountService, TransactionLogService transactionLogService) {
+        this.fundAccountService = fundAccountService;
+        this.transactionLogService = transactionLogService;
+    }
 
     /* 日志 */
 //    private static final Logger logger = LoggerFactory.getLogger(FundController.class);
@@ -199,5 +204,13 @@ public class FundController {
         else
             return new CustomResponse(new Result(false, "不存在该账户")).toString();
     }
+
+    @RequestMapping(value = "/fund/transaction_log/{fundId}", method = GET)
+    @ResponseBody
+    public String fetchTransactionLog(@PathVariable String fundId) {
+        return new CustomResponse(new Result(true),
+                transactionLogService.fetchLog(Integer.valueOf(fundId))).toString();
+    }
+
 
 }

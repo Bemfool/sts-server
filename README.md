@@ -54,7 +54,7 @@
     - false + 原因
   - 内容：List<Stock>
 
-`/stock/one` 获取单只股票信息【GET】
+`/stock/one` 获取单只股票信息【POST】
 
 - 传入：stock_code
 - 传出：
@@ -66,6 +66,15 @@
 `/stock/{priv}` 获取权限以下的股票【GET】
 
 - 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List<Stock>
+
+`/stock/{priv}/like` 获取权限以下且模糊搜索的股票【POST】
+
+- 传入：String 模糊搜索的内容
 - 传出：
   - 结果：
     - true
@@ -90,7 +99,7 @@
     - false + 原因
   - 内容：null
 
-`stock/update_list/state/{newState` 更新状态【POST】
+`stock/update_list/state/{newState}` 更新状态【POST】
 
 - 传入：List<Stock> 待修改的股票数据
 - 传出：
@@ -119,7 +128,7 @@
     - false + 原因
   - 内容：List<Index>
 
-`index/one` 取单只指数【GET】
+`index/one` 取单只指数【POST】
 
 - 传入：index_code
 - 传出：
@@ -337,6 +346,15 @@
   - 结果：
     - true
     - false+原因
+
+`fund/transaction_log/{fundId}` 获取交易记录【GET】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false+原因
+  - 内容：List<TransactionLog>
 
 #### 内部管理
 
