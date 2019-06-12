@@ -34,6 +34,14 @@ public class StockService {
     }
 
     public List<Stock> fetchConnectedStock(int securitiesId) {
-        return stockDAO.selectFromSSRelation(securitiesId);
+        return stockDAO.selectStockFromSSRelation(securitiesId);
+    }
+
+    public Integer fetchStockHold(int fundId, String stockCode) {
+        return stockDAO.selectAmountFromSSRelation(fundId, stockCode);
+    }
+
+    public void updateStockHold(int fundId, String stockCode, int stockCount) {
+        stockDAO.updateAmountFromSSRelation(fundId, stockCode, stockCount);
     }
 }

@@ -386,7 +386,7 @@
 
 #### 指令操作
 
-`command/upload`  上传买/卖指令，同时更新用户余额或股票库存【POST】
+`command/upload`  上传买/卖指令，同时更新用户余额（并增加transaction log）或股票库存【POST】
 
 - 传入：Command
 - 传出：
@@ -395,7 +395,7 @@
     - false + 原因
   - 内容：null
 
-`command/revoke` 撤销买/卖指令，同时同时更新用户余额或股票库存【POST】
+`command/revoke` 撤销买/卖指令，同时同时更新用户余额（并增加transaction log）或股票库存【POST】
 
 - 传入：Command
 - 传出：
@@ -421,6 +421,15 @@
     - true
     - false + 原因
   - 内容：null
+
+`trade_record/{fundId}` 获得指定fund_id的指令成交记录【GET】
+
+- 传入：null
+- 传出：
+  - 结果：
+    - true
+    - false + 原因
+  - 内容：List<TradeRecord>
 
 ## TODO
 

@@ -9,5 +9,5 @@ public interface iStockDAO {
     void update(Stock stock);
     void delete(String code);
     List<Stock> select(String cond);
-    List<Stock> selectFromSSRelation(int securitiesId);
+    List<Stock> selectStockFromSSRelation(int securitiesId);
 }

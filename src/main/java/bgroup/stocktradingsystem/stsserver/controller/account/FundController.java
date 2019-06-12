@@ -7,6 +7,7 @@ import bgroup.stocktradingsystem.stsserver.domain.response.Result;
 import bgroup.stocktradingsystem.stsserver.service.TransactionLogService;
 import bgroup.stocktradingsystem.stsserver.service.account.FundAccountService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class FundController {
     final private TransactionLogService transactionLogService;
 
     /* JSON语句处理 */
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     @Autowired
     public FundController(FundAccountService fundAccountService, TransactionLogService transactionLogService) {

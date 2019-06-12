@@ -72,11 +72,27 @@ public class StockDAO implements iStockDAO {
                     new StockMapper());
     }
 
-    public List<Stock> selectFromSSRelation(int securitiesId) {
+    public List<Stock> selectStockFromSSRelation(int securitiesId) {
         return jdbcTemplate.query("SELECT stock_code, stock_name, stock_price," +
                 "stock_state, stock_limit, closing_price, stock_amount, stock_total " +
                 "FROM securities_stock NATURAL JOIN stock " +
                 "WHERE securities_id = " + securitiesId, new StockMapper());
+    }
+
+    public int selectAmountFromSSRelation(int fundId, String stockCode) {
+        return jdbcTemplate.query("SELECT amount " +
+                "FROM fund_account NATURAL JOIN securities_stock " +
+                "WHERE stock_code = '" + stockCode + "' AND fund_id = " + fundId,
+                (resultSet, i) -> resultSet.getInt("amount")).get(0);
+    }
+
+    public void updateAmountFromSSRelation(int fundId, String stockCode, int stockCount) {
+        jdbcTemplate.update("UPDATE fund_account NATURAL JOIN securities_stock " +
+                "SET amount = amount - " + stockCount + " " +
+                "WHERE fund_id = ? AND stock_code = ?", preparedStatement -> {
+            preparedStatement.setInt(1,fundId );
+            preparedStatement.setString(2, stockCode);
+        });
     }
 
 

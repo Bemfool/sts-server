@@ -9,6 +9,15 @@ public class TransactionLog {
     private double changeAmount;
     private String comment;
 
+    public TransactionLog() {}
+
+    public TransactionLog(int fundId, Date actionTime, double changeAmount, String comment) {
+        this.fundId = fundId;
+        this.actionTime = actionTime;
+        this.changeAmount = changeAmount;
+        this.comment = comment;
+    }
+
     public int getFundId() {
         return fundId;
     }
