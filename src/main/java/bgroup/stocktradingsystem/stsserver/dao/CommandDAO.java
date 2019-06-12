@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * CommandDAO用于管理Command数据库(后被每只股票自建一个表取代)。
  *
  */
 @Repository
