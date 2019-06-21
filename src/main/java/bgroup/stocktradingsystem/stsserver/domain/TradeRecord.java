@@ -1,7 +1,7 @@
 package bgroup.stocktradingsystem.stsserver.domain;
 
 public class TradeRecord {
-    private int tradeId;
+    private String tradeId;
     private boolean type;
     private int fundId;
     private String stockCode;
@@ -30,7 +30,7 @@ public class TradeRecord {
         return amount;
     }
 
-    public int getTradeId() {
+    public String getTradeId() {
         return tradeId;
     }
 
@@ -62,7 +62,7 @@ public class TradeRecord {
         this.amount = amount;
     }
 
-    public void setTradeId(int tradeId) {
+    public void setTradeId(String tradeId) {
         this.tradeId = tradeId;
     }
 

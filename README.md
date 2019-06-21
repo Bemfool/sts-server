@@ -1,5 +1,7 @@
 # Stock Trading System - Server
 
+总系统地址：<https://github.com/Great-Keith/SbockBradingBystem>
+
 该项目为B组股票交易系统的子模块，作为管理员客户端、用户客户端的服务器。
 
 版本号：1.0.0

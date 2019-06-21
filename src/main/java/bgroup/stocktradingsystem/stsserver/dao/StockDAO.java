@@ -75,7 +75,7 @@ public class StockDAO implements iStockDAO {
     public List<Stock> selectStockFromSSRelation(int securitiesId) {
         return jdbcTemplate.query("SELECT stock_code, stock_name, stock_price," +
                 "stock_state, stock_limit, closing_price, stock_amount, stock_total " +
-                "FROM securities_stock NATURAL JOIN stock " +
+                "FROM securities_stock NATURAL JOIN stock_new " +
                 "WHERE securities_id = " + securitiesId, new StockMapper());
     }
 

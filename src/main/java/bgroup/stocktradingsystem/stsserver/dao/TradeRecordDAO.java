@@ -32,7 +32,7 @@ public class TradeRecordDAO {
         @Override
         public TradeRecord mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             TradeRecord record = new TradeRecord();
-            record.setAmount(resultSet.getInt("trade_id"));
+            record.setTradeId(resultSet.getString("trade_id"));
             record.setType(resultSet.getBoolean("type"));
             record.setFundId(resultSet.getInt("fund_id"));
             record.setStockCode(resultSet.getString("stock_code"));

@@ -105,6 +105,11 @@ public class CommandController {
                 command.getStockCount() + "," +
                 command.getStockPrice() + "," + command.getTime());
         thread.start();
+        System.out.println(command.isCommandType() + "," +
+                command.getFundId() + "," +
+                command.getStockCode() + "," +
+                command.getStockCount() + "," +
+                command.getStockPrice() + "," + command.getTime());
         return new CustomResponse(new Result(true), thread.getState()).toString();
     }
 
